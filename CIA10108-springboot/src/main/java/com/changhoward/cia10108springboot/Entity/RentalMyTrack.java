@@ -14,12 +14,10 @@ public class RentalMyTrack implements Serializable {
 
     @EmbeddedId
     private CompositeTrack compositeTrack;
-
     @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "rno", referencedColumnName = "rno", insertable = false, updatable = false)
     private Rental rental;
-
     @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "memno", referencedColumnName = "memno", insertable = false, updatable = false)
@@ -28,6 +26,7 @@ public class RentalMyTrack implements Serializable {
     private Timestamp rTrackTime;
     @Column(name = "exprentaldate")
     private Date expRentalDate;
+
     @Embeddable
     public static class CompositeTrack implements Serializable {
 
@@ -73,7 +72,7 @@ public class RentalMyTrack implements Serializable {
             return Objects.hash(getrNo(), getMemNo());
         }
 
-    }// 內部類別結束
+    } // 內部類別結束
 
     public RentalMyTrack() {
     }
@@ -132,6 +131,17 @@ public class RentalMyTrack implements Serializable {
 
     public void setExpRentalDate(Date expRentalDate) {
         this.expRentalDate = expRentalDate;
+    }
+
+
+    @Override
+    public String toString() {
+        return "RentalMyTrack{" +
+                "rNo=" + compositeTrack.getrNo() +
+                "memNo=" + compositeTrack.getMemNo() +
+                ", rTrackTime=" + rTrackTime +
+                ", expRentalDate=" + expRentalDate +
+                '}' + "\n";
     }
 
 }

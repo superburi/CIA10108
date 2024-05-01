@@ -11,54 +11,83 @@ import java.util.Objects;
 @Table(name = "rentalorderdetails")
 public class RentalOrderDetails implements Serializable{
 
-    public RentalOrderDetails() {
+    @EmbeddedId
+    private CompositeDetail compositeDetail;
 
-    }
-
-    /*
-     * rOrdNo -> 租借品訂單編號
-     * rNo -> 租借品編號
-     * rPrice -> 單價
-     * rDesPrice -> 押金(單件)
-     */
-
-//    @Id
-//    @Column(name = "rOrdNo")
-//    private Integer rOrdNo;
-    @Id
     @ManyToOne
     @JsonManagedReference
-    @JoinColumn(name = "rordno", referencedColumnName = "rordno")
+    @JoinColumn(name = "rordno", referencedColumnName = "rordno", insertable = false, updatable = false)
     private RentalOrder rentalOrder;
-
-//    @Id
-//    @Column(name = "rNo")
-//    private Integer rNo;
-    @Id
     @ManyToOne
     @JsonManagedReference
-    @JoinColumn(name = "rno", referencedColumnName = "rno")
+    @JoinColumn(name = "rno", referencedColumnName = "rno", insertable = false, updatable = false)
     private Rental rental;
-
     @Column(name = "rprice")
-    private BigDecimal rPrice;
+    BigDecimal rPrice;
     @Column(name = "rdesprice")
-    private BigDecimal rDesPrice;
+    BigDecimal rDesPrice;
 
-    public RentalOrder getRentalOrder() {
-        return rentalOrder;
+    @Embeddable
+    public static class CompositeDetail implements Serializable {
+
+        @Column(name = "rordno")
+        private Integer rOrdNo;
+        @Column(name = "rno")
+        private Integer rNo;
+
+        public Integer getrOrdNo() {
+            return rOrdNo;
+        }
+
+        public void setrOrdNo(Integer rOrdNo) {
+            this.rOrdNo = rOrdNo;
+        }
+
+        public Integer getrNo() {
+            return rNo;
+        }
+
+        public void setrNo(Integer rNo) {
+            this.rNo = rNo;
+        }
+
+        public CompositeDetail() {
+        }
+
+        public CompositeDetail(Integer rOrdNo, Integer rNo) {
+            this.rOrdNo = rOrdNo;
+            this.rNo = rNo;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof CompositeDetail that)) return false;
+            return Objects.equals(getrOrdNo(), that.getrOrdNo()) && Objects.equals(getrNo(), that.getrNo());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(getrOrdNo(), getrNo());
+        }
+
+    } // 內部類別結束
+
+    public RentalOrderDetails() {
     }
 
-    public void setRentalOrder(RentalOrder rentalOrder) {
-        this.rentalOrder = rentalOrder;
+    public RentalOrderDetails(CompositeDetail compositeDetail, BigDecimal rPrice, BigDecimal rDesPrice) {
+        this.compositeDetail = compositeDetail;
+        this.rPrice = rPrice;
+        this.rDesPrice = rDesPrice;
     }
 
-    public Rental getRental() {
-        return rental;
+    public CompositeDetail getCompositeDetail() {
+        return compositeDetail;
     }
 
-    public void setRental(Rental rental) {
-        this.rental = rental;
+    public void setCompositeDetail(CompositeDetail compositeDetail) {
+        this.compositeDetail = compositeDetail;
     }
 
     public BigDecimal getrPrice() {
@@ -77,73 +106,31 @@ public class RentalOrderDetails implements Serializable{
         this.rDesPrice = rDesPrice;
     }
 
-    /*-------------------------------內部類別的 getter、setter--------------------------------------*/
-
-    public CompositeDetail getCompositeDetail() {
-        return new CompositeDetail(rentalOrder, rental);
+    public RentalOrder getRentalOrder() {
+        return rentalOrder;
     }
 
-    public void setCompositeDetail(CompositeDetail key) {
-        key.setRentalOrderVoOrm(this.rentalOrder);
-        key.setRentalVO(this.rental);
+    public void setRentalOrder(RentalOrder rentalOrder) {
+        this.rentalOrder = rentalOrder;
     }
 
-/*-------------------------------因為複合主鍵所以加上的內部類別--------------------------------------*/
+    public Rental getRental() {
+        return rental;
+    }
 
-    static class CompositeDetail implements Serializable {
-
-        private RentalOrder rentalOrder;
-        private Rental rental;
-
-        public CompositeDetail() {
-
-        }
-
-        public CompositeDetail(RentalOrder rentalOrder, Rental rental) {
-            this.rentalOrder = rentalOrder;
-            this.rental = rental;
-        }
-
-        public RentalOrder getRentalOrderVoOrm() {
-            return rentalOrder;
-        }
-
-        public void setRentalOrderVoOrm(RentalOrder rentalOrder) {
-            this.rentalOrder = rentalOrder;
-        }
-
-        public Rental getRentalVO() {
-            return rental;
-        }
-
-        public void setRentalVO(Rental rental) {
-            this.rental = rental;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof CompositeDetail that)) return false;
-            return Objects.equals(getRentalOrderVoOrm(), that.getRentalOrderVoOrm()) && Objects.equals(getRentalVO(), that.getRentalVO());
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(getRentalOrderVoOrm(), getRentalVO());
-        }
-
-    } // 內部類別結束
+    public void setRental(Rental rental) {
+        this.rental = rental;
+    }
 
     @Override
     public String toString() {
-        return "RentalOrderDetails_ORM{" +
-                "rentalOrder=" + rentalOrder +
-                ", rental=" + rental +
+        return "RentalOrderDetails{" +
+                ", rentalOrder=" + compositeDetail.getrOrdNo() +
+                ", rental=" + compositeDetail.getrNo() +
                 ", rPrice=" + rPrice +
                 ", rDesPrice=" + rDesPrice +
-                '}';
+                '}' + "\n";
     }
-
 }
 
 

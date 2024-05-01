@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <p>成功</p>
+
+
+<!--    <div th:text="${rentalMyTrack.getCompositeTrack().getrNo()}"></div>-->
+<!--    <div th:text="${rentalMyTrack.getCompositeTrack().getMemNo()}"></div>-->
+<!--    <div th:text="${rentalMyTrack.getrTrackTime()}"></div>-->
+<!--    <div th:text="${rentalMyTrack.getExpRentalDate()}"></div>-->
+
+    <th:block th:each="rentalMyTrack : ${rentalMyTrackList}">
+        <div th:text="${rentalMyTrack.getCompositeTrack().getrNo()}"></div>
+        <div th:text="${rentalMyTrack.getCompositeTrack().getMemNo()}"></div>
+        <div th:text="${rentalMyTrack.getrTrackTime()}"></div>
+        <div th:text="${rentalMyTrack.getExpRentalDate()}"></div>
+    </th:block>
+
+</body>
+</html>

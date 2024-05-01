@@ -1,73 +1,61 @@
-package com.changhoward.cia10108springboot.Entity;
+package com.changhoward.cia10108springboot.howard.rentalorder.dto;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.changhoward.cia10108springboot.Entity.Member;
+import com.changhoward.cia10108springboot.Entity.RentalOrderDetails;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.Set;
+import java.util.List;
 
-@Entity
-@Table(name = "rentalorder")
-public class RentalOrder implements Serializable {
+public class RentalOrderRequest {
 
-    public RentalOrder() {
-
-    }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "rordno", updatable = false)
-    private Integer rOrdNo; // -> 租借品訂單編號
-    @ManyToOne
-    @JsonManagedReference
-    @JoinColumn(name = "memno", referencedColumnName = "memno")
-    private Member member;
-    @Column(name = "rbyrname")
+    private Integer rOrdNo; // -> 租借訂單編號
+    @NotBlank
+    private Integer memNo; // -> 會員編號
+    @NotBlank
     private String rByrName; // -> 訂購人姓名
-    @Column(name = "rbyrphone")
+    @NotBlank
     private String rByrPhone; // -> 訂購人手機號碼
-    @Column(name = "rbyremail")
+    @NotBlank
+    @Email
     private String rByrEmail; // -> 訂購人Email
-    @Column(name = "rrcvname")
-    private String rRcvName; // -> 收件人姓名
-    @Column(name = "rrcvphone")
-    private String rRcvPhone; // -> 收件人手機號碼
-    @Column(name = "rtakemethod")
-    private byte rTakeMethod; // -> 取貨方式
-    @Column(name = "raddr")
-    private String rAddr; // -> 宅配住址
-    @Column(name = "rpaymethod")
-    private byte rPayMethod; // -> 付款方式
-    @Column(name = "rallprice")
-    private BigDecimal rAllPrice; // -> 訂單總金額
-    @Column(name = "ralldepprice")
-    private BigDecimal rAllDepPrice; // -> 押金總金額
-    @Column(name = "rordtime")
-    private Timestamp rOrdTime; // -> 下單時間
-    @Column(name = "rdate")
-    private Timestamp rDate; // -> 預計租借日期
-    @Column(name = "rbackdate")
-    private Timestamp rBackDate; // -> 預計歸還日期
-    @Column(name = "rrealbackdate")
-    private Timestamp rRealBackDate; // -> 實際歸還日期
-    @Column(name = "rpaystat")
-    private byte rPayStat; // -> 付款狀態
-    @Column(name = "rordstat")
-    private byte rOrdStat; // -> 訂單狀態
-    @Column(name = "rtnstat")
-    private byte rtnStat; // -> 歸還狀態
-    @Column(name = "rtnremark")
-    private String rtnRemark; // -> 歸還註記
-    @Column(name = "rtncompensation")
-    private BigDecimal rtnCompensation; // -> 賠償金額
-    @JsonBackReference
-    @OneToMany(mappedBy = "rentalOrder", cascade = CascadeType.ALL)
-    private Set<RentalOrderDetails> rentalOrderDetailses;
 
-/*----------------------getter、setter--------------------------*/
+    private String rRcvName; // -> 收件人姓名
+    private String rRcvPhone; // -> 收件人手機號碼
+    @NotBlank
+    private byte rTakeMethod; // -> 取貨方式
+    private String rAddr; // -> 宅配住址
+    @NotBlank
+    private byte rPayMethod; // -> 付款方式
+    @NotBlank
+    private BigDecimal rAllPrice; // -> 訂單總金額
+    @NotBlank
+    private BigDecimal rAllDepPrice; // -> 押金總金額
+    private Timestamp rOrdTime; // -> 下單時間
+    @NotBlank
+    private Timestamp rDate; // -> 預計租借日期
+    @NotBlank
+    private Timestamp rBackDate; // -> 預計歸還日期
+
+    private Timestamp rRealBackDate; // -> 實際歸還日期
+    @NotBlank
+    private byte rPayStat; // -> 付款狀態
+
+    private byte rOrdStat; // -> 訂單狀態
+
+    private byte rtnStat; // -> 歸還狀態
+    private String rtnRemark; // -> 歸還註記
+    private BigDecimal rtnCompensation; // -> 賠償金額
+    @NotEmpty
+    private List<RentalOrderDetails> buyItems; // -> 購買明細
 
     public Integer getrOrdNo() {
         return rOrdNo;
@@ -75,6 +63,14 @@ public class RentalOrder implements Serializable {
 
     public void setrOrdNo(Integer rOrdNo) {
         this.rOrdNo = rOrdNo;
+    }
+
+    public Integer getMemNo() {
+        return memNo;
+    }
+
+    public void setMemNo(Integer memNo) {
+        this.memNo = memNo;
     }
 
     public String getrByrName() {
@@ -229,51 +225,12 @@ public class RentalOrder implements Serializable {
         this.rtnCompensation = rtnCompensation;
     }
 
-    /*--------------------------聯合映射用的 getter、setter( rentalorder 是主表)------------------------------*/
-    public Set<RentalOrderDetails> getRentalOrderDetailses() {
-        return rentalOrderDetailses;
+    public List<RentalOrderDetails> getBuyItems() {
+        return buyItems;
     }
 
-    public void setRentalOrderDetailses(Set<RentalOrderDetails> rentalOrderDetailses) {
-        this.rentalOrderDetailses = rentalOrderDetailses;
-    }
-
-/*--------------------------聯合映射用的 getter、setter( member 是主表)------------------------------*/
-    public Member getMember() {
-        return this.member;
-    }
-
-    public void setMember(Member member) {
-        this.member = member;
-    }
-
-
-    @Override
-    public String toString() {
-        return "RentalOrderVo_ORM{" +
-                "rOrdNo=" + rOrdNo +
-                ", memNo=" + member.getMemNo() +
-                ", rByrName='" + rByrName + '\'' +
-                ", rByrPhone='" + rByrPhone + '\'' +
-                ", rByrEmail='" + rByrEmail + '\'' +
-                ", rRcvName='" + rRcvName + '\'' +
-                ", rRcvPhone='" + rRcvPhone + '\'' +
-                ", rTakeMethod=" + rTakeMethod +
-                ", rAddr='" + rAddr + '\'' +
-                ", rPayMethod=" + rPayMethod +
-                ", rAllPrice=" + rAllPrice +
-                ", rAllDepPrice=" + rAllDepPrice +
-                ", rOrdTime=" + rOrdTime +
-                ", rDate=" + rDate +
-                ", rBackDate=" + rBackDate +
-                ", rRealBackDate=" + rRealBackDate +
-                ", rPayStat=" + rPayStat +
-                ", rOrdStat=" + rOrdStat +
-                ", rtnStat=" + rtnStat +
-                ", rtnRemark='" + rtnRemark + '\'' +
-                ", rtnCompensation=" + rtnCompensation +
-                ", rentalOrderDetailses=" + rentalOrderDetailses +
-                '}';
+    public void setBuyItems(List<RentalOrderDetails> buyItems) {
+        this.buyItems = buyItems;
     }
 
 }
