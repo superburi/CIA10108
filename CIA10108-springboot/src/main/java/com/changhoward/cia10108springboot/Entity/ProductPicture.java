@@ -9,21 +9,21 @@ import javax.persistence.*;
 @Table(name = "productpicture")
 public class ProductPicture implements java.io.Serializable {
     @Id
-    @Column(name = "ppicno", updatable = false)
-    private Integer pPicNo;
+    @Column(name = "productpicno", updatable = false)
+    private Integer productPicNo;
     @ManyToOne
     @JsonManagedReference
-    @JoinColumn(name = "pno", referencedColumnName = "pno")
+    @JoinColumn(name = "productno", referencedColumnName = "productno")
     private Product product;
-    @Column(name = "ppic", columnDefinition = "longblob")
-    private byte[] pPic;
+    @Column(name = "productpic", columnDefinition = "longblob")
+    private byte[] productPic;
 
-    public Integer getpPicNo() {
-        return pPicNo;
+    public Integer getproductPicNo() {
+        return productPicNo;
     }
 
-    public void setpPicNo(Integer pPicNo) {
-        this.pPicNo = pPicNo;
+    public void setproductPicNo(Integer productPicNo) {
+        this.productPicNo = productPicNo;
     }
 
     public Product getProduct() {
@@ -34,11 +34,11 @@ public class ProductPicture implements java.io.Serializable {
         this.product = product;
     }
 
-    public byte[] getpPic() {
-        return pPic;
+    public byte[] getproductPic() {
+        return productPic;
     }
 
-    public void setpPic(byte[] pPic) {
-        this.pPic = pPic;
+    public void setproductPic(byte[] productPic) {
+        this.productPic = productPic;
     }
 }

@@ -16,32 +16,32 @@ public class RentalMyTrack implements Serializable {
     private CompositeTrack compositeTrack;
     @JsonManagedReference
     @ManyToOne
-    @JoinColumn(name = "rno", referencedColumnName = "rno", insertable = false, updatable = false)
+    @JoinColumn(name = "rentalno", referencedColumnName = "rentalno", insertable = false, updatable = false)
     private Rental rental;
     @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "memno", referencedColumnName = "memno", insertable = false, updatable = false)
     private Member member;
-    @Column(name = "rtracktime")
-    private Timestamp rTrackTime;
+    @Column(name = "rentaltracktime")
+    private Timestamp rentalTrackTime;
     @Column(name = "exprentaldate")
     private Date expRentalDate;
 
     @Embeddable
     public static class CompositeTrack implements Serializable {
 
-        @Column(name = "rno")
-        private Integer rNo;
+        @Column(name = "rentalno")
+        private Integer rentalNo;
 
         @Column(name = "memno")
         private Integer memNo;
 
-        public Integer getrNo() {
-            return rNo;
+        public Integer getrentalNo() {
+            return rentalNo;
         }
 
-        public void setrNo(Integer rNo) {
-            this.rNo = rNo;
+        public void setrentalNo(Integer rentalNo) {
+            this.rentalNo = rentalNo;
         }
 
         public Integer getMemNo() {
@@ -55,8 +55,8 @@ public class RentalMyTrack implements Serializable {
         public CompositeTrack() {
         }
 
-        public CompositeTrack(Integer rNo, Integer memNo) {
-            this.rNo = rNo;
+        public CompositeTrack(Integer rentalNo, Integer memNo) {
+            this.rentalNo = rentalNo;
             this.memNo = memNo;
         }
 
@@ -64,12 +64,12 @@ public class RentalMyTrack implements Serializable {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (!(o instanceof CompositeTrack that)) return false;
-            return Objects.equals(getrNo(), that.getrNo()) && Objects.equals(getMemNo(), that.getMemNo());
+            return Objects.equals(getrentalNo(), that.getrentalNo()) && Objects.equals(getMemNo(), that.getMemNo());
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(getrNo(), getMemNo());
+            return Objects.hash(getrentalNo(), getMemNo());
         }
 
     } // 內部類別結束
@@ -77,9 +77,9 @@ public class RentalMyTrack implements Serializable {
     public RentalMyTrack() {
     }
 
-    public RentalMyTrack(CompositeTrack compositeTrack, Timestamp rTrackTime) {
+    public RentalMyTrack(CompositeTrack compositeTrack, Timestamp rentalTrackTime) {
         this.compositeTrack = compositeTrack;
-        this.rTrackTime = rTrackTime;
+        this.rentalTrackTime = rentalTrackTime;
     }
 
     public RentalMyTrack(CompositeTrack compositeTrack, Date expRentalDate) {
@@ -87,9 +87,9 @@ public class RentalMyTrack implements Serializable {
         this.expRentalDate = expRentalDate;
     }
 
-    public RentalMyTrack(CompositeTrack compositeTrack, Timestamp rTrackTime, Date expRentalDate) {
+    public RentalMyTrack(CompositeTrack compositeTrack, Timestamp rentalTrackTime, Date expRentalDate) {
         this.compositeTrack = compositeTrack;
-        this.rTrackTime = rTrackTime;
+        this.rentalTrackTime = rentalTrackTime;
         this.expRentalDate = expRentalDate;
     }
 
@@ -117,12 +117,12 @@ public class RentalMyTrack implements Serializable {
         this.member = member;
     }
 
-    public Timestamp getrTrackTime() {
-        return rTrackTime;
+    public Timestamp getrentalTrackTime() {
+        return rentalTrackTime;
     }
 
-    public void setrTrackTime(Timestamp rTrackTime) {
-        this.rTrackTime = rTrackTime;
+    public void setrentalTrackTime(Timestamp rentalTrackTime) {
+        this.rentalTrackTime = rentalTrackTime;
     }
 
     public Date getExpRentalDate() {
@@ -137,9 +137,9 @@ public class RentalMyTrack implements Serializable {
     @Override
     public String toString() {
         return "RentalMyTrack{" +
-                "rNo=" + compositeTrack.getrNo() +
+                "rentalNo=" + compositeTrack.getrentalNo() +
                 "memNo=" + compositeTrack.getMemNo() +
-                ", rTrackTime=" + rTrackTime +
+                ", rentalTrackTime=" + rentalTrackTime +
                 ", expRentalDate=" + expRentalDate +
                 '}' + "\n";
     }

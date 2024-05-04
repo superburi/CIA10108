@@ -8,18 +8,18 @@ import java.sql.Timestamp;
 public class RentalMyTrackRequest {
 
     @NotBlank
-    private Integer rNo; // -> 租借品編號
+    private Integer rentalNo; // -> 租借品編號
     @NotBlank
     private Integer memNo; // -> 會員編號
-    private Timestamp rTrackTime; // -> 加入追蹤時間
+    private Timestamp rentalTrackTime; // -> 加入追蹤時間
     private Date expRentalDate; // -> 期望租借日期
 
-    public Integer getrNo() {
-        return rNo;
+    public Integer getrentalNo() {
+        return rentalNo;
     }
 
-    public void setrNo(Integer rNo) {
-        this.rNo = rNo;
+    public void setrentalNo(Integer rentalNo) {
+        this.rentalNo = rentalNo;
     }
 
     public Integer getMemNo() {
@@ -30,12 +30,12 @@ public class RentalMyTrackRequest {
         this.memNo = memNo;
     }
 
-    public Timestamp getrTrackTime() {
-        return rTrackTime;
+    public Timestamp getrentalTrackTime() {
+        return rentalTrackTime;
     }
 
-    public void setrTrackTime(Timestamp rTrackTime) {
-        this.rTrackTime = rTrackTime;
+    public void setrentalTrackTime(Timestamp rentalTrackTime) {
+        this.rentalTrackTime = rentalTrackTime;
     }
 
     public Date getExpRentalDate() {

@@ -7,42 +7,42 @@ import javax.persistence.*;
 public class RentSet {
 
     @Id //標示為PK
-    @Column(name = "rordno")
-    private Integer rOrdNo;
+    @Column(name = "rentalordno")
+    private Integer rentalOrdNo;
 
-    @Column(name = "rsetname", length = 20)
-    private String rSetName;
+    @Column(name = "rentalsetname", length = 20)
+    private String rentalSetName;
 
-    @Column(name = "rsetdays", columnDefinition = "tinyint")
-    private Byte rSetDays;
+    @Column(name = "rentalsetdays", columnDefinition = "tinyint")
+    private Byte rentalSetDays;
 
-    public Integer getrOrdNo() {
-        return rOrdNo;
+    public Integer getrentalOrdNo() {
+        return rentalOrdNo;
     }
 
-    public void setrOrdNo(Integer rOrdNo) {
-        this.rOrdNo = rOrdNo;
+    public void setrentalOrdNo(Integer rentalOrdNo) {
+        this.rentalOrdNo = rentalOrdNo;
     }
 
-    public String getrSetName() {
-        return rSetName;
+    public String getrentalSetName() {
+        return rentalSetName;
     }
 
-    public void setrSetName(String rSetName) {
-        this.rSetName = rSetName;
+    public void setrentalSetName(String rentalSetName) {
+        this.rentalSetName = rentalSetName;
     }
 
-    public Byte getrSetDays() {
-        return rSetDays;
+    public Byte getrentalSetDays() {
+        return rentalSetDays;
     }
 
-    public void setrSetDays(Byte rSetDays) {
-        this.rSetDays = rSetDays;
+    public void setrentalSetDays(Byte rentalSetDays) {
+        this.rentalSetDays = rentalSetDays;
     }
 
     @Override
     public String toString() {
-        return "RentalCategory [rOrdNo=" + rOrdNo + ", rSetName=" + rSetName + "," + " rSetDays=" + rSetDays + "]";
+        return "RentalCategory [rentalOrdNo=" + rentalOrdNo + ", rentalSetName=" + rentalSetName + "," + " rentalSetDays=" + rentalSetDays + "]";
     }
 
 }

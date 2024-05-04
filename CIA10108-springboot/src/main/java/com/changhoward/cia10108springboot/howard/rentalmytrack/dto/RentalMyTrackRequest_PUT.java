@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 public class RentalMyTrackRequest_PUT {
 
     @NotBlank
-    private Integer rNo; // -> 租借品編號
+    private Integer rentalNo; // -> 租借品編號
     @NotBlank
     private Integer memNo; // -> 會員編號
     private Timestamp rTrackTime; // -> 加入追蹤時間
@@ -18,12 +18,12 @@ public class RentalMyTrackRequest_PUT {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd") // 讓請求的 json 資料符合 sql.Date 格式
     private Date expRentalDate; // -> 期望租借日期
 
-    public Integer getrNo() {
-        return rNo;
+    public Integer getrentalNo() {
+        return rentalNo;
     }
 
-    public void setrNo(Integer rNo) {
-        this.rNo = rNo;
+    public void setrentalNo(Integer rentalNo) {
+        this.rentalNo = rentalNo;
     }
 
     public Integer getMemNo() {

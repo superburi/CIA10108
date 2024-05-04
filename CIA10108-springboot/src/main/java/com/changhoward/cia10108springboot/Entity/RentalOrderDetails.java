@@ -16,59 +16,59 @@ public class RentalOrderDetails implements Serializable{
 
     @ManyToOne
     @JsonManagedReference
-    @JoinColumn(name = "rordno", referencedColumnName = "rordno", insertable = false, updatable = false)
+    @JoinColumn(name = "rentalordno", referencedColumnName = "rentalordno", insertable = false, updatable = false)
     private RentalOrder rentalOrder;
     @ManyToOne
     @JsonManagedReference
-    @JoinColumn(name = "rno", referencedColumnName = "rno", insertable = false, updatable = false)
+    @JoinColumn(name = "rentalno", referencedColumnName = "rentalno", insertable = false, updatable = false)
     private Rental rental;
-    @Column(name = "rprice")
-    BigDecimal rPrice;
-    @Column(name = "rdesprice")
-    BigDecimal rDesPrice;
+    @Column(name = "rentalprice")
+    BigDecimal rentalPrice;
+    @Column(name = "rentaldesprice")
+    BigDecimal rentalDesPrice;
 
     @Embeddable
     public static class CompositeDetail implements Serializable {
 
-        @Column(name = "rordno")
-        private Integer rOrdNo;
-        @Column(name = "rno")
-        private Integer rNo;
+        @Column(name = "rentalordno")
+        private Integer rentalOrdNo;
+        @Column(name = "rentalno")
+        private Integer rentalNo;
 
-        public Integer getrOrdNo() {
-            return rOrdNo;
+        public Integer getrentalOrdNo() {
+            return rentalOrdNo;
         }
 
-        public void setrOrdNo(Integer rOrdNo) {
-            this.rOrdNo = rOrdNo;
+        public void setrentalOrdNo(Integer rentalOrdNo) {
+            this.rentalOrdNo = rentalOrdNo;
         }
 
-        public Integer getrNo() {
-            return rNo;
+        public Integer getrentalNo() {
+            return rentalNo;
         }
 
-        public void setrNo(Integer rNo) {
-            this.rNo = rNo;
+        public void setrentalNo(Integer rentalNo) {
+            this.rentalNo = rentalNo;
         }
 
         public CompositeDetail() {
         }
 
-        public CompositeDetail(Integer rOrdNo, Integer rNo) {
-            this.rOrdNo = rOrdNo;
-            this.rNo = rNo;
+        public CompositeDetail(Integer rentalOrdNo, Integer rentalNo) {
+            this.rentalOrdNo = rentalOrdNo;
+            this.rentalNo = rentalNo;
         }
 
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
             if (!(o instanceof CompositeDetail that)) return false;
-            return Objects.equals(getrOrdNo(), that.getrOrdNo()) && Objects.equals(getrNo(), that.getrNo());
+            return Objects.equals(getrentalOrdNo(), that.getrentalOrdNo()) && Objects.equals(getrentalNo(), that.getrentalNo());
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(getrOrdNo(), getrNo());
+            return Objects.hash(getrentalOrdNo(), getrentalNo());
         }
 
     } // 內部類別結束
@@ -76,10 +76,10 @@ public class RentalOrderDetails implements Serializable{
     public RentalOrderDetails() {
     }
 
-    public RentalOrderDetails(CompositeDetail compositeDetail, BigDecimal rPrice, BigDecimal rDesPrice) {
+    public RentalOrderDetails(CompositeDetail compositeDetail, BigDecimal rentalPrice, BigDecimal rentalDesPrice) {
         this.compositeDetail = compositeDetail;
-        this.rPrice = rPrice;
-        this.rDesPrice = rDesPrice;
+        this.rentalPrice = rentalPrice;
+        this.rentalDesPrice = rentalDesPrice;
     }
 
     public CompositeDetail getCompositeDetail() {
@@ -90,20 +90,20 @@ public class RentalOrderDetails implements Serializable{
         this.compositeDetail = compositeDetail;
     }
 
-    public BigDecimal getrPrice() {
-        return rPrice;
+    public BigDecimal getrentalPrice() {
+        return rentalPrice;
     }
 
-    public void setrPrice(BigDecimal rPrice) {
-        this.rPrice = rPrice;
+    public void setrentalPrice(BigDecimal rentalPrice) {
+        this.rentalPrice = rentalPrice;
     }
 
-    public BigDecimal getrDesPrice() {
-        return rDesPrice;
+    public BigDecimal getrentalDesPrice() {
+        return rentalDesPrice;
     }
 
-    public void setrDesPrice(BigDecimal rDesPrice) {
-        this.rDesPrice = rDesPrice;
+    public void setrentalDesPrice(BigDecimal rentalDesPrice) {
+        this.rentalDesPrice = rentalDesPrice;
     }
 
     public RentalOrder getRentalOrder() {
@@ -125,10 +125,10 @@ public class RentalOrderDetails implements Serializable{
     @Override
     public String toString() {
         return "RentalOrderDetails{" +
-                ", rentalOrder=" + compositeDetail.getrOrdNo() +
-                ", rental=" + compositeDetail.getrNo() +
-                ", rPrice=" + rPrice +
-                ", rDesPrice=" + rDesPrice +
+                ", rentalOrder=" + compositeDetail.getrentalOrdNo() +
+                ", rental=" + compositeDetail.getrentalNo() +
+                ", rentalPrice=" + rentalPrice +
+                ", rentalDesPrice=" + rentalDesPrice +
                 '}' + "\n";
     }
 }

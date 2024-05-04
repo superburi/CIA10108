@@ -19,7 +19,7 @@ public interface RentalMyTrackService {
     *       回傳值 -> 無
     *
     *   3. findById : 用 Id 查詢租借品追蹤資料
-    *       參數 -> Integer 類型的 rNo(租借品編號)、memNo(會員編號)
+    *       參數 -> Integer 類型的 rentalNo(租借品編號)、memNo(會員編號)
     *       回傳值 -> rentalmytrack 物件
     *
     *   4. getAll : 查詢所有租借品追蹤資料
@@ -34,9 +34,9 @@ public interface RentalMyTrackService {
 
     public void insert(RentalMyTrack rentalMyTrack);
 
-    public void update(RentalMyTrackRequest_PUT rmt);
+    public void update(RentalMyTrack rmt);
 
-    public RentalMyTrack findById(Integer rNo, Integer memNo);
+    public RentalMyTrack findById(Integer rentalNo, Integer memNo);
 
     public List<RentalMyTrack> getAll();
 

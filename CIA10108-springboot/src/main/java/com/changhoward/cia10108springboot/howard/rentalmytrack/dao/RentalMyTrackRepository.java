@@ -7,6 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -15,11 +16,15 @@ import java.util.List;
 @Component
 public interface RentalMyTrackRepository extends JpaRepository<RentalMyTrack, RentalMyTrack.CompositeTrack> {
 
-//    @Query(value = "SELECT rno, memno, rtracktime, exprentaldate FROM rentalmytrack WHERE 1=1:sql", nativeQuery = true)
-//    List<RentalMyTrack> findByrnoAndmemnoAndrtracktimeAndexprentaldate(Integer rNo, Integer memNo,
-//                                                                       Timestamp rTrackTime, Date expRentalDate);
-
-//    List<RentalMyTrack> findByCompositeTrackAndrTrackTimeAndexpRentalDate(
-//            RentalMyTrack.CompositeTrack compositeTrack, Timestamp rTrackTime, Date expRentalDate);
+    @Transactional
+    @Query("SELECT t FROM RentalMyTrack t WHERE " +
+            "(:rentalNo IS NULL OR t.compositeTrack.rentalNo = :rentalNo) AND " +
+            "(:memNo IS NULL OR t.compositeTrack.memNo = :memNo) AND " +
+            "(:rentalTrackTime IS NULL OR t.rentalTrackTime = :rentalTrackTime) AND" +
+            "(:expRentalDate IS NULL OR t.expRentalDate = :expRentalDate)")
+    List<RentalMyTrack>findByAttributes(@Param("rentalNo") Integer rentalNo,
+                                        @Param("memNo") Integer memNo,
+                                        @Param("rentalTrackTime") Timestamp rentalTrackTime,
+                                        @Param("expRentalDate") Date expRentalDate);
 
 }

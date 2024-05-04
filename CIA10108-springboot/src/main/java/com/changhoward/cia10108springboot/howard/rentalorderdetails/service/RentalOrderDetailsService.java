@@ -36,9 +36,9 @@ public interface RentalOrderDetailsService {
 
     public void insert(RentalOrderDetails rentalOrderDetails);
 
-    public void update(RentalOrderDetailsRequest details_request);
+    public void update(RentalOrderDetails rod);
 
-    public RentalOrderDetails findById(Integer rOrdNo, Integer rNo);
+    public RentalOrderDetails findById(Integer rentalOrdNo, Integer rentalNo);
 
     public List<RentalOrderDetails> getAll();
 

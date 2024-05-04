@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Component
@@ -24,27 +27,27 @@ public class RentalOrderDetailsServiceImpl implements RentalOrderDetailsService 
     }
 
     @Override
-    public void update(RentalOrderDetailsRequest details_request) {
+    public void update(RentalOrderDetails rod) {
 
         // 取出 PK 、單價、押金
-        Integer rOrdNo = details_request.getrOrdNo();
-        Integer rNo = details_request.getrNo();
-        BigDecimal rPrice = details_request.getrPrice();
-        BigDecimal rDesPrice = details_request.getrDesPrice();
+        Integer rentalOrdNo = rod.getCompositeDetail().getrentalOrdNo();
+        Integer rentalNo = rod.getCompositeDetail().getrentalNo();
+        BigDecimal rentalPrice = rod.getrentalPrice();
+        BigDecimal rentalDesPrice = rod.getrentalDesPrice();
         // 裝進內部類別
-        RentalOrderDetails.CompositeDetail compositeDetail = new RentalOrderDetails.CompositeDetail(rOrdNo, rNo);
+        RentalOrderDetails.CompositeDetail compositeDetail = new RentalOrderDetails.CompositeDetail(rentalOrdNo, rentalNo);
         // 裝進類別
-        RentalOrderDetails rentalOrderDetails = new RentalOrderDetails(compositeDetail, rPrice, rDesPrice);
+        RentalOrderDetails rentalOrderDetails = new RentalOrderDetails(compositeDetail, rentalPrice, rentalDesPrice);
         // 執行更新
         repository.save(rentalOrderDetails);
 
     }
 
     @Override
-    public RentalOrderDetails findById(Integer rOrdNo, Integer rNo) {
+    public RentalOrderDetails findById(Integer rentalOrdNo, Integer rentalNo) {
 
         // 把 PK 裝進內部類別
-        RentalOrderDetails.CompositeDetail compositeDetail = new RentalOrderDetails.CompositeDetail(rOrdNo, rNo);
+        RentalOrderDetails.CompositeDetail compositeDetail = new RentalOrderDetails.CompositeDetail(rentalOrdNo, rentalNo);
         Optional<RentalOrderDetails> optional = repository.findById(compositeDetail);
         //  有找到 ? 取出物件 : 回傳 null
         RentalOrderDetails detail = optional.orElse(null);
@@ -56,5 +59,34 @@ public class RentalOrderDetailsServiceImpl implements RentalOrderDetailsService 
     public List<RentalOrderDetails> getAll() {
         return repository.findAll();
     }
+
+
+    public List<RentalOrderDetails> getByAttributes(Map<String, Object> map) {
+
+        if (map.isEmpty()) {
+            return repository.findAll();
+        }
+
+        Integer rentalOrdNo = null;
+        Integer rentalNo = null;
+        BigDecimal rentalPrice = null;
+        BigDecimal rentalDesPrice = null;
+        if (map.containsKey("rentalOrdNo")) {
+            rentalOrdNo = (Integer) map.get("rentalOrdNo");
+        }
+        if (map.containsKey("rentalNo")) {
+            rentalNo = (Integer) map.get("rentalNo");
+        }
+        if (map.containsKey("rentalPrice")) {
+            rentalPrice = (BigDecimal) map.get("rentalPrice");
+        }
+        if (map.containsKey("rentalDesPrice")) {
+            rentalDesPrice = (BigDecimal) map.get("rentalDesPrice");
+        }
+
+        return repository.findByAttributes(rentalOrdNo, rentalNo, rentalPrice, rentalDesPrice);
+
+    }
+
 
 }

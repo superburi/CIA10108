@@ -11,14 +11,14 @@ import java.util.Set;
 @Table(name = "studioinfo")
 public class StudioInfo {
     @Id
-    @Column(name = "sno")
-    private Integer sNo;
-    @Column(name = "sname")
-    private String sName;
-    @Column(name = "sinfo")
-    private String sInfo;
-    @Column(name = "sprice")
-    private BigDecimal sPrice;
+    @Column(name = "studiono")
+    private Integer studioNo;
+    @Column(name = "studioname")
+    private String studioName;
+    @Column(name = "studioinfo")
+    private String studioInfo;
+    @Column(name = "studioprice")
+    private BigDecimal studioPrice;
     @JsonBackReference
     @OneToMany(mappedBy = "studioInfo", cascade = CascadeType.ALL)
     private Set<StudioOrder> studioOrders;
@@ -26,36 +26,36 @@ public class StudioInfo {
     @OneToMany(mappedBy = "studioInfo", cascade = CascadeType.ALL)
     private Set<StudioTimeBooking> studioTimeBookings;
 
-    public Integer getsNo() {
-        return sNo;
+    public Integer getstudioNo() {
+        return studioNo;
     }
 
-    public void setsNo(Integer sNo) {
-        this.sNo = sNo;
+    public void setstudioNo(Integer studioNo) {
+        this.studioNo = studioNo;
     }
 
-    public String getsName() {
-        return sName;
+    public String getstudioName() {
+        return studioName;
     }
 
-    public void setsName(String sName) {
-        this.sName = sName;
+    public void setstudioName(String studioName) {
+        this.studioName = studioName;
     }
 
-    public String getsInfo() {
-        return sInfo;
+    public String getstudioInfo() {
+        return studioInfo;
     }
 
-    public void setsInfo(String sInfo) {
-        this.sInfo = sInfo;
+    public void setstudioInfo(String studioInfo) {
+        this.studioInfo = studioInfo;
     }
 
-    public BigDecimal getsPrice() {
-        return sPrice;
+    public BigDecimal getstudioPrice() {
+        return studioPrice;
     }
 
-    public void setsPrice(BigDecimal sPrice) {
-        this.sPrice = sPrice;
+    public void setstudioPrice(BigDecimal studioPrice) {
+        this.studioPrice = studioPrice;
     }
 
     public Set<StudioOrder> getStudioOrders() {

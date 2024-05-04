@@ -11,15 +11,15 @@ public class Cart {
 
     @EmbeddedId
     private CompositeDetail2 compositeKey2;
-    @Column(name = "pbuyqty")
-    private Integer pBuyQty;
+    @Column(name = "productbuyqty")
+    private Integer productBuyQty;
     @ManyToOne
     @JsonManagedReference
     @JoinColumn(name = "memno", referencedColumnName = "memno", insertable = false, updatable = false)
     private Member member;
     @ManyToOne
     @JsonManagedReference
-    @JoinColumn(name = "pno", referencedColumnName = "pno", insertable = false, updatable = false)
+    @JoinColumn(name = "productno", referencedColumnName = "productno", insertable = false, updatable = false)
     private Product product;
 
     public CompositeDetail2 getCompositeKey2() {
@@ -30,12 +30,12 @@ public class Cart {
         this.compositeKey2 = compositeKey2;
     }
 
-    public Integer getpBuyQty() {
-        return pBuyQty;
+    public Integer getproductBuyQty() {
+        return productBuyQty;
     }
 
-    public void setpBuyQty(Integer pBuyQty) {
-        this.pBuyQty = pBuyQty;
+    public void setproductBuyQty(Integer productBuyQty) {
+        this.productBuyQty = productBuyQty;
     }
 
     public Member getMember() {
@@ -57,8 +57,8 @@ public class Cart {
     @Embeddable
     public static class CompositeDetail2 implements Serializable {
         private static final long serialVersionUID = 1L;
-        @Column(name = "pno")
-        private Integer pNo;
+        @Column(name = "productno")
+        private Integer productNo;
         @Column(name = "memno")
         private Integer memNo;
 
@@ -66,18 +66,18 @@ public class Cart {
         public CompositeDetail2(){
             super();
         }
-        public CompositeDetail2(Integer pNo,Integer memNo){
+        public CompositeDetail2(Integer productNo,Integer memNo){
             super();
-            this.pNo = pNo;
+            this.productNo = productNo;
             this.memNo = memNo;
 
         }
 
-        public Integer getpNo() {
-            return pNo;
+        public Integer getproductNo() {
+            return productNo;
         }
-        public void setpNo(Integer pNo) {
-            this.pNo = pNo;
+        public void setproductNo(Integer productNo) {
+            this.productNo = productNo;
         }
         public Integer getmemNo() {
             return memNo;
@@ -89,7 +89,7 @@ public class Cart {
         public int hashCode() {
             final int prime = 31;
             int result = 1;
-            result = prime * result + ((pNo == null) ? 0 : pNo.hashCode());
+            result = prime * result + ((productNo == null) ? 0 : productNo.hashCode());
             result = prime * result + ((memNo == null) ? 0 : memNo.hashCode());
             return result;
         }
@@ -100,7 +100,7 @@ public class Cart {
 
             if (obj != null && getClass() == obj.getClass()) {
                CompositeDetail2 compositeKey2 = (CompositeDetail2) obj;
-                if (pNo.equals(compositeKey2.pNo) && memNo.equals(compositeKey2.memNo)) {
+                if (productNo.equals(compositeKey2.productNo) && memNo.equals(compositeKey2.memNo)) {
                     return true;
                 }
             }

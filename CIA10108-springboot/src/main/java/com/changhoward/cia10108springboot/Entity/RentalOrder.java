@@ -19,44 +19,44 @@ public class RentalOrder implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "rordno", updatable = false)
-    private Integer rOrdNo; // -> 租借品訂單編號
+    @Column(name = "rentalordno", updatable = false)
+    private Integer rentalOrdNo; // -> 租借品訂單編號
     @ManyToOne
     @JsonManagedReference
     @JoinColumn(name = "memno", referencedColumnName = "memno")
     private Member member;
-    @Column(name = "rbyrname")
-    private String rByrName; // -> 訂購人姓名
-    @Column(name = "rbyrphone")
-    private String rByrPhone; // -> 訂購人手機號碼
-    @Column(name = "rbyremail")
-    private String rByrEmail; // -> 訂購人Email
-    @Column(name = "rrcvname")
-    private String rRcvName; // -> 收件人姓名
-    @Column(name = "rrcvphone")
-    private String rRcvPhone; // -> 收件人手機號碼
-    @Column(name = "rtakemethod")
-    private byte rTakeMethod; // -> 取貨方式
-    @Column(name = "raddr")
-    private String rAddr; // -> 宅配住址
-    @Column(name = "rpaymethod")
-    private byte rPayMethod; // -> 付款方式
-    @Column(name = "rallprice")
-    private BigDecimal rAllPrice; // -> 訂單總金額
-    @Column(name = "ralldepprice")
-    private BigDecimal rAllDepPrice; // -> 押金總金額
-    @Column(name = "rordtime")
-    private Timestamp rOrdTime; // -> 下單時間
-    @Column(name = "rdate")
-    private Timestamp rDate; // -> 預計租借日期
-    @Column(name = "rbackdate")
-    private Timestamp rBackDate; // -> 預計歸還日期
-    @Column(name = "rrealbackdate")
-    private Timestamp rRealBackDate; // -> 實際歸還日期
-    @Column(name = "rpaystat")
-    private byte rPayStat; // -> 付款狀態
-    @Column(name = "rordstat")
-    private byte rOrdStat; // -> 訂單狀態
+    @Column(name = "rentalbyrname")
+    private String rentalByrName; // -> 訂購人姓名
+    @Column(name = "rentalbyrphone")
+    private String rentalByrPhone; // -> 訂購人手機號碼
+    @Column(name = "rentalbyremail")
+    private String rentalByrEmail; // -> 訂購人Email
+    @Column(name = "rentalrcvname")
+    private String rentalRcvName; // -> 收件人姓名
+    @Column(name = "rentalrcvphone")
+    private String rentalRcvPhone; // -> 收件人手機號碼
+    @Column(name = "rentaltakemethod")
+    private byte rentalTakeMethod; // -> 取貨方式
+    @Column(name = "rentaladdr")
+    private String rentalAddr; // -> 宅配住址
+    @Column(name = "rentalpaymethod")
+    private byte rentalPayMethod; // -> 付款方式
+    @Column(name = "rentalallprice")
+    private BigDecimal rentalAllPrice; // -> 訂單總金額
+    @Column(name = "rentalalldepprice")
+    private BigDecimal rentalAllDepPrice; // -> 押金總金額
+    @Column(name = "rentalordtime")
+    private Timestamp rentalOrdTime; // -> 下單時間
+    @Column(name = "rentaldate")
+    private Timestamp rentalDate; // -> 預計租借日期
+    @Column(name = "rentalbackdate")
+    private Timestamp rentalBackDate; // -> 預計歸還日期
+    @Column(name = "rentalrealbackdate")
+    private Timestamp rentalRealBackDate; // -> 實際歸還日期
+    @Column(name = "rentalpaystat")
+    private byte rentalPayStat; // -> 付款狀態
+    @Column(name = "rentalordstat")
+    private byte rentalOrdStat; // -> 訂單狀態
     @Column(name = "rtnstat")
     private byte rtnStat; // -> 歸還狀態
     @Column(name = "rtnremark")
@@ -69,140 +69,140 @@ public class RentalOrder implements Serializable {
 
 /*----------------------getter、setter--------------------------*/
 
-    public Integer getrOrdNo() {
-        return rOrdNo;
+    public Integer getrentalOrdNo() {
+        return rentalOrdNo;
     }
 
-    public void setrOrdNo(Integer rOrdNo) {
-        this.rOrdNo = rOrdNo;
+    public void setrentalOrdNo(Integer rentalOrdNo) {
+        this.rentalOrdNo = rentalOrdNo;
     }
 
-    public String getrByrName() {
-        return rByrName;
+    public String getrentalByrName() {
+        return rentalByrName;
     }
 
-    public void setrByrName(String rByrName) {
-        this.rByrName = rByrName;
+    public void setrentalByrName(String rentalByrName) {
+        this.rentalByrName = rentalByrName;
     }
 
-    public String getrByrPhone() {
-        return rByrPhone;
+    public String getrentalByrPhone() {
+        return rentalByrPhone;
     }
 
-    public void setrByrPhone(String rByrPhone) {
-        this.rByrPhone = rByrPhone;
+    public void setrentalByrPhone(String rentalByrPhone) {
+        this.rentalByrPhone = rentalByrPhone;
     }
 
-    public String getrByrEmail() {
-        return rByrEmail;
+    public String getrentalByrEmail() {
+        return rentalByrEmail;
     }
 
-    public void setrByrEmail(String rByrEmail) {
-        this.rByrEmail = rByrEmail;
+    public void setrentalByrEmail(String rentalByrEmail) {
+        this.rentalByrEmail = rentalByrEmail;
     }
 
-    public String getrRcvName() {
-        return rRcvName;
+    public String getrentalRcvName() {
+        return rentalRcvName;
     }
 
-    public void setrRcvName(String rRcvName) {
-        this.rRcvName = rRcvName;
+    public void setrentalRcvName(String rentalRcvName) {
+        this.rentalRcvName = rentalRcvName;
     }
 
-    public String getrRcvPhone() {
-        return rRcvPhone;
+    public String getrentalRcvPhone() {
+        return rentalRcvPhone;
     }
 
-    public void setrRcvPhone(String rRcvPhone) {
-        this.rRcvPhone = rRcvPhone;
+    public void setrentalRcvPhone(String rentalRcvPhone) {
+        this.rentalRcvPhone = rentalRcvPhone;
     }
 
-    public byte getrTakeMethod() {
-        return rTakeMethod;
+    public byte getrentalTakeMethod() {
+        return rentalTakeMethod;
     }
 
-    public void setrTakeMethod(byte rTakeMethod) {
-        this.rTakeMethod = rTakeMethod;
+    public void setrentalTakeMethod(byte rentalTakeMethod) {
+        this.rentalTakeMethod = rentalTakeMethod;
     }
 
-    public String getrAddr() {
-        return rAddr;
+    public String getrentalAddr() {
+        return rentalAddr;
     }
 
-    public void setrAddr(String rAddr) {
-        this.rAddr = rAddr;
+    public void setrentalAddr(String rentalAddr) {
+        this.rentalAddr = rentalAddr;
     }
 
-    public byte getrPayMethod() {
-        return rPayMethod;
+    public byte getrentalPayMethod() {
+        return rentalPayMethod;
     }
 
-    public void setrPayMethod(byte rPayMethod) {
-        this.rPayMethod = rPayMethod;
+    public void setrentalPayMethod(byte rentalPayMethod) {
+        this.rentalPayMethod = rentalPayMethod;
     }
 
-    public BigDecimal getrAllPrice() {
-        return rAllPrice;
+    public BigDecimal getrentalAllPrice() {
+        return rentalAllPrice;
     }
 
-    public void setrAllPrice(BigDecimal rAllPrice) {
-        this.rAllPrice = rAllPrice;
+    public void setrentalAllPrice(BigDecimal rentalAllPrice) {
+        this.rentalAllPrice = rentalAllPrice;
     }
 
-    public BigDecimal getrAllDepPrice() {
-        return rAllDepPrice;
+    public BigDecimal getrentalAllDepPrice() {
+        return rentalAllDepPrice;
     }
 
-    public void setrAllDepPrice(BigDecimal rAllDepPrice) {
-        this.rAllDepPrice = rAllDepPrice;
+    public void setrentalAllDepPrice(BigDecimal rentalAllDepPrice) {
+        this.rentalAllDepPrice = rentalAllDepPrice;
     }
 
-    public Timestamp getrOrdTime() {
-        return rOrdTime;
+    public Timestamp getrentalOrdTime() {
+        return rentalOrdTime;
     }
 
-    public void setrOrdTime(Timestamp rOrdTime) {
-        this.rOrdTime = rOrdTime;
+    public void setrentalOrdTime(Timestamp rentalOrdTime) {
+        this.rentalOrdTime = rentalOrdTime;
     }
 
-    public Timestamp getrDate() {
-        return rDate;
+    public Timestamp getrentalDate() {
+        return rentalDate;
     }
 
-    public void setrDate(Timestamp rDate) {
-        this.rDate = rDate;
+    public void setrentalDate(Timestamp rentalDate) {
+        this.rentalDate = rentalDate;
     }
 
-    public Timestamp getrBackDate() {
-        return rBackDate;
+    public Timestamp getrentalBackDate() {
+        return rentalBackDate;
     }
 
-    public void setrBackDate(Timestamp rBackDate) {
-        this.rBackDate = rBackDate;
+    public void setrentalBackDate(Timestamp rentalBackDate) {
+        this.rentalBackDate = rentalBackDate;
     }
 
-    public Timestamp getrRealBackDate() {
-        return rRealBackDate;
+    public Timestamp getrentalRealBackDate() {
+        return rentalRealBackDate;
     }
 
-    public void setrRealBackDate(Timestamp rRealBackDate) {
-        this.rRealBackDate = rRealBackDate;
+    public void setrentalRealBackDate(Timestamp rentalRealBackDate) {
+        this.rentalRealBackDate = rentalRealBackDate;
     }
 
-    public byte getrPayStat() {
-        return rPayStat;
+    public byte getrentalPayStat() {
+        return rentalPayStat;
     }
 
-    public void setrPayStat(byte rPayStat) {
-        this.rPayStat = rPayStat;
+    public void setrentalPayStat(byte rentalPayStat) {
+        this.rentalPayStat = rentalPayStat;
     }
 
-    public byte getrOrdStat() {
-        return rOrdStat;
+    public byte getrentalOrdStat() {
+        return rentalOrdStat;
     }
 
-    public void setrOrdStat(byte rOrdStat) {
-        this.rOrdStat = rOrdStat;
+    public void setrentalOrdStat(byte rentalOrdStat) {
+        this.rentalOrdStat = rentalOrdStat;
     }
 
     public byte getRtnStat() {
@@ -251,29 +251,30 @@ public class RentalOrder implements Serializable {
     @Override
     public String toString() {
         return "RentalOrderVo_ORM{" +
-                "rOrdNo=" + rOrdNo +
+                "rentalOrdNo=" + rentalOrdNo +
                 ", memNo=" + member.getMemNo() +
-                ", rByrName='" + rByrName + '\'' +
-                ", rByrPhone='" + rByrPhone + '\'' +
-                ", rByrEmail='" + rByrEmail + '\'' +
-                ", rRcvName='" + rRcvName + '\'' +
-                ", rRcvPhone='" + rRcvPhone + '\'' +
-                ", rTakeMethod=" + rTakeMethod +
-                ", rAddr='" + rAddr + '\'' +
-                ", rPayMethod=" + rPayMethod +
-                ", rAllPrice=" + rAllPrice +
-                ", rAllDepPrice=" + rAllDepPrice +
-                ", rOrdTime=" + rOrdTime +
-                ", rDate=" + rDate +
-                ", rBackDate=" + rBackDate +
-                ", rRealBackDate=" + rRealBackDate +
-                ", rPayStat=" + rPayStat +
-                ", rOrdStat=" + rOrdStat +
+                ", rentalByrName='" + rentalByrName + '\'' +
+                ", rentalByrPhone='" + rentalByrPhone + '\'' +
+                ", rentalByrEmail='" + rentalByrEmail + '\'' +
+                ", rentalRcvName='" + rentalRcvName + '\'' +
+                ", rentalRcvPhone='" + rentalRcvPhone + '\'' +
+                ", rentalTakeMethod=" + rentalTakeMethod +
+                ", rentalAddr='" + rentalAddr + '\'' +
+                ", rentalPayMethod=" + rentalPayMethod +
+                ", rentalAllPrice=" + rentalAllPrice +
+                ", rentalAllDepPrice=" + rentalAllDepPrice +
+                ", rentalOrdTime=" + rentalOrdTime +
+                ", rentalDate=" + rentalDate +
+                ", rentalBackDate=" + rentalBackDate +
+                ", rentalRealBackDate=" + rentalRealBackDate +
+                ", rentalPayStat=" + rentalPayStat +
+                ", rentalOrdStat=" + rentalOrdStat +
                 ", rtnStat=" + rtnStat +
                 ", rtnRemark='" + rtnRemark + '\'' +
                 ", rtnCompensation=" + rtnCompensation +
                 ", rentalOrderDetailses=" + rentalOrderDetailses +
                 '}';
+
     }
 
 }

@@ -14,15 +14,15 @@ import java.util.Set;
 @Table(name = "studioorder")
 public class StudioOrder {
     @Id
-    @Column(name = "sordno")
-    private Integer sOrdNo;
+    @Column(name = "studioordno")
+    private Integer studioOrdNo;
     @ManyToOne
     @JsonManagedReference
     @JoinColumn(name = "memno", referencedColumnName = "memno")
     private Member member;
     @ManyToOne
     @JsonManagedReference
-    @JoinColumn(name = "sno", referencedColumnName = "sno")
+    @JoinColumn(name = "studiono", referencedColumnName = "studiono")
     private StudioInfo studioInfo;
     @ManyToOne
     @JsonManagedReference
@@ -36,40 +36,40 @@ public class StudioOrder {
     private Byte bookedTimeAfternoon;
     @Column(name = "bookedtimenight")
     private Byte bookedTimeNight;
-    @Column(name = "sordtime")
-    private Timestamp sOrdTime;
-    @Column(name = "sordstat")
-    private Byte sOrdStat;
-    @Column(name = "sttlprice")
-    private BigDecimal sTtlPrice;
-    @Column(name = "sdepprice")
-    private BigDecimal sDepPrice;
-    @Column(name = "sbyrname")
-    private String sByrName;
-    @Column(name = "sbyrphone")
-    private String sByrPhone;
-    @Column(name = "sbyremail")
-    private String sByrEmail;
-    @Column(name = "spaymethod")
-    private Byte sPayMethod;
-    @Column(name = "spaystat")
-    private Byte sPayStat;
+    @Column(name = "studioordtime")
+    private Timestamp studioOrdTime;
+    @Column(name = "studioordstat")
+    private Byte studioOrdStat;
+    @Column(name = "studiottlprice")
+    private BigDecimal studioTtlPrice;
+    @Column(name = "studiodepprice")
+    private BigDecimal studioDepPrice;
+    @Column(name = "studiobyrname")
+    private String studioByrName;
+    @Column(name = "studiobyrphone")
+    private String studioByrPhone;
+    @Column(name = "studiobyremail")
+    private String studioByrEmail;
+    @Column(name = "studiopaymethod")
+    private Byte studioPayMethod;
+    @Column(name = "studiopaystat")
+    private Byte studioPayStat;
     @Column(name = "checkinstat")
     private Byte checkInStat;
-    @Column(name = "sreturnmark")
-    private String sReturnMark;
-    @Column(name = "scompensation")
-    private BigDecimal sCompensation;
+    @Column(name = "studioreturnmark")
+    private String studioReturnMark;
+    @Column(name = "studiocompensation")
+    private BigDecimal studioCompensation;
     @JsonBackReference
     @OneToMany(mappedBy = "studioOrder", cascade = CascadeType.ALL)
     private Set<StudioTimeBooking> studioTimeBookings;
 
-    public Integer getsOrdNo() {
-        return sOrdNo;
+    public Integer getstudioOrdNo() {
+        return studioOrdNo;
     }
 
-    public void setsOrdNo(Integer sOrdNo) {
-        this.sOrdNo = sOrdNo;
+    public void setstudioOrdNo(Integer studioOrdNo) {
+        this.studioOrdNo = studioOrdNo;
     }
 
     public Member getMember() {
@@ -128,76 +128,76 @@ public class StudioOrder {
         this.bookedTimeNight = bookedTimeNight;
     }
 
-    public Timestamp getsOrdTime() {
-        return sOrdTime;
+    public Timestamp getstudioOrdTime() {
+        return studioOrdTime;
     }
 
-    public void setsOrdTime(Timestamp sOrdTime) {
-        this.sOrdTime = sOrdTime;
+    public void setstudioOrdTime(Timestamp studioOrdTime) {
+        this.studioOrdTime = studioOrdTime;
     }
 
-    public Byte getsOrdStat() {
-        return sOrdStat;
+    public Byte getstudioOrdStat() {
+        return studioOrdStat;
     }
 
-    public void setsOrdStat(Byte sOrdStat) {
-        this.sOrdStat = sOrdStat;
+    public void setstudioOrdStat(Byte studioOrdStat) {
+        this.studioOrdStat = studioOrdStat;
     }
 
-    public BigDecimal getsTtlPrice() {
-        return sTtlPrice;
+    public BigDecimal getstudioTtlPrice() {
+        return studioTtlPrice;
     }
 
-    public void setsTtlPrice(BigDecimal sTtlPrice) {
-        this.sTtlPrice = sTtlPrice;
+    public void setstudioTtlPrice(BigDecimal studioTtlPrice) {
+        this.studioTtlPrice = studioTtlPrice;
     }
 
-    public BigDecimal getsDepPrice() {
-        return sDepPrice;
+    public BigDecimal getstudioDepPrice() {
+        return studioDepPrice;
     }
 
-    public void setsDepPrice(BigDecimal sDepPrice) {
-        this.sDepPrice = sDepPrice;
+    public void setstudioDepPrice(BigDecimal studioDepPrice) {
+        this.studioDepPrice = studioDepPrice;
     }
 
-    public String getsByrName() {
-        return sByrName;
+    public String getstudioByrName() {
+        return studioByrName;
     }
 
-    public void setsByrName(String sByrName) {
-        this.sByrName = sByrName;
+    public void setstudioByrName(String studioByrName) {
+        this.studioByrName = studioByrName;
     }
 
-    public String getsByrPhone() {
-        return sByrPhone;
+    public String getstudioByrPhone() {
+        return studioByrPhone;
     }
 
-    public void setsByrPhone(String sByrPhone) {
-        this.sByrPhone = sByrPhone;
+    public void setstudioByrPhone(String studioByrPhone) {
+        this.studioByrPhone = studioByrPhone;
     }
 
-    public String getsByrEmail() {
-        return sByrEmail;
+    public String getstudioByrEmail() {
+        return studioByrEmail;
     }
 
-    public void setsByrEmail(String sByrEmail) {
-        this.sByrEmail = sByrEmail;
+    public void setstudioByrEmail(String studioByrEmail) {
+        this.studioByrEmail = studioByrEmail;
     }
 
-    public Byte getsPayMethod() {
-        return sPayMethod;
+    public Byte getstudioPayMethod() {
+        return studioPayMethod;
     }
 
-    public void setsPayMethod(Byte sPayMethod) {
-        this.sPayMethod = sPayMethod;
+    public void setstudioPayMethod(Byte studioPayMethod) {
+        this.studioPayMethod = studioPayMethod;
     }
 
-    public Byte getsPayStat() {
-        return sPayStat;
+    public Byte getstudioPayStat() {
+        return studioPayStat;
     }
 
-    public void setsPayStat(Byte sPayStat) {
-        this.sPayStat = sPayStat;
+    public void setstudioPayStat(Byte studioPayStat) {
+        this.studioPayStat = studioPayStat;
     }
 
     public Byte getCheckInStat() {
@@ -208,20 +208,20 @@ public class StudioOrder {
         this.checkInStat = checkInStat;
     }
 
-    public String getsReturnMark() {
-        return sReturnMark;
+    public String getstudioReturnMark() {
+        return studioReturnMark;
     }
 
-    public void setsReturnMark(String sReturnMark) {
-        this.sReturnMark = sReturnMark;
+    public void setstudioReturnMark(String studioReturnMark) {
+        this.studioReturnMark = studioReturnMark;
     }
 
-    public BigDecimal getsCompensation() {
-        return sCompensation;
+    public BigDecimal getstudioCompensation() {
+        return studioCompensation;
     }
 
-    public void setsCompensation(BigDecimal sCompensation) {
-        this.sCompensation = sCompensation;
+    public void setstudioCompensation(BigDecimal studioCompensation) {
+        this.studioCompensation = studioCompensation;
     }
 
     public Set<StudioTimeBooking> getStudioTimeBookings() {

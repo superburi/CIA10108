@@ -10,15 +10,15 @@ import java.sql.Date;
 @Table(name = "studiotimebooking")
 public class StudioTimeBooking {
     @Id
-    @Column(name = "stimeno")
-    private Integer sTimeNo;
+    @Column(name = "studiotimeno")
+    private Integer studioTimeNo;
     @ManyToOne
     @JsonManagedReference
-    @JoinColumn(name = "sordno", referencedColumnName = "sordno")
+    @JoinColumn(name = "studioordno", referencedColumnName = "studioordno")
     private StudioOrder studioOrder;
     @ManyToOne
     @JsonManagedReference
-    @JoinColumn(name = "sno", referencedColumnName = "sno")
+    @JoinColumn(name = "studiono", referencedColumnName = "studiono")
     private StudioInfo studioInfo;
     @Column(name = "closedate")
     private Date closeDate;
@@ -29,12 +29,12 @@ public class StudioTimeBooking {
     @Column(name = "closetimenight")
     private Byte closeTimeNight;
 
-    public Integer getsTimeNo() {
-        return sTimeNo;
+    public Integer getstudioTimeNo() {
+        return studioTimeNo;
     }
 
-    public void setsTimeNo(Integer sTimeNo) {
-        this.sTimeNo = sTimeNo;
+    public void setstudioTimeNo(Integer studioTimeNo) {
+        this.studioTimeNo = studioTimeNo;
     }
 
     public StudioOrder getStudioOrder() {

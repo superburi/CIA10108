@@ -13,55 +13,55 @@ import java.util.Set;
 @Table(name = "productorder")
 public class ProductOrder {
     @Id
-    @Column(name = "pordno", updatable = false)
-    private Integer pOrdNo;
+    @Column(name = "productordno", updatable = false)
+    private Integer productOrdNo;
     @ManyToOne
     @JsonManagedReference
     @JoinColumn(name = "memno", referencedColumnName = "memno")
     private Member member;
-    @Column(name = "pbyrname")
-    private String pByrName;
-    @Column(name = "pbyrphone")
-    private Integer pByrPhone;
-    @Column(name = "pbyremail")
-    private String pByrEmail;
-    @Column(name = "prcvname")
-    private String pRcvName;
-    @Column(name = "prcvphone")
-    private String pRcvPhone;
-    @Column(name = "ptakemethod")
-    private Byte pTakeMethod;
-    @Column(name = "paddr")
-    private String pAddr;
-    @Column(name = "ppaymethod")
-    private Byte pPayMethod;
-    @Column(name = "pallprice")
-    private BigDecimal pAllPrice;
+    @Column(name = "productbyrname")
+    private String productByrName;
+    @Column(name = "productbyrphone")
+    private Integer productByrPhone;
+    @Column(name = "productbyremail")
+    private String productByrEmail;
+    @Column(name = "productrcvname")
+    private String productRcvName;
+    @Column(name = "productrcvphone")
+    private String productRcvPhone;
+    @Column(name = "producttakemethod")
+    private Byte productTakeMethod;
+    @Column(name = "productaddr")
+    private String productAddr;
+    @Column(name = "productpaymethod")
+    private Byte productPayMethod;
+    @Column(name = "productallprice")
+    private BigDecimal productAllPrice;
     @ManyToOne
     @JsonManagedReference
     @JoinColumn(name = "coupno", referencedColumnName = "coupno")
     private Coupon coupon;
-    @Column(name = "pdisc")
-    private BigDecimal pDisc;
-    @Column(name = "prealprice")
-    private BigDecimal pRealPrice;
-    @Column(name = "pordtime")
-    private Timestamp pOrdTime;
-    @Column(name = "pordstat")
-    private Byte pOrdStat;
-    @Column(name = "pstat")
-    private Byte pStat;
+    @Column(name = "productdisc")
+    private BigDecimal productDisc;
+    @Column(name = "productrealprice")
+    private BigDecimal productRealPrice;
+    @Column(name = "productordtime")
+    private Timestamp productOrdTime;
+    @Column(name = "productordstat")
+    private Byte productOrdStat;
+    @Column(name = "productstat")
+    private Byte productStat;
     @JsonBackReference
     @OneToMany(mappedBy = "productOrder", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private Set<ProductOrderDetail> productOrderDetails;
 
-    public Integer getpOrdNo() {
-        return pOrdNo;
+    public Integer getproductOrdNo() {
+        return productOrdNo;
     }
 
-    public void setpOrdNo(Integer pOrdNo) {
-        this.pOrdNo = pOrdNo;
+    public void setproductOrdNo(Integer productOrdNo) {
+        this.productOrdNo = productOrdNo;
     }
 
     public Member getMember() {
@@ -72,76 +72,76 @@ public class ProductOrder {
         this.member = member;
     }
 
-    public String getpByrName() {
-        return pByrName;
+    public String getproductByrName() {
+        return productByrName;
     }
 
-    public void setpByrName(String pByrName) {
-        this.pByrName = pByrName;
+    public void setproductByrName(String productByrName) {
+        this.productByrName = productByrName;
     }
 
-    public Integer getpByrPhone() {
-        return pByrPhone;
+    public Integer getproductByrPhone() {
+        return productByrPhone;
     }
 
-    public void setpByrPhone(Integer pByrPhone) {
-        this.pByrPhone = pByrPhone;
+    public void setproductByrPhone(Integer productByrPhone) {
+        this.productByrPhone = productByrPhone;
     }
 
-    public String getpByrEmail() {
-        return pByrEmail;
+    public String getproductByrEmail() {
+        return productByrEmail;
     }
 
-    public void setpByrEmail(String pByrEmail) {
-        this.pByrEmail = pByrEmail;
+    public void setproductByrEmail(String productByrEmail) {
+        this.productByrEmail = productByrEmail;
     }
 
-    public String getpRcvName() {
-        return pRcvName;
+    public String getproductRcvName() {
+        return productRcvName;
     }
 
-    public void setpRcvName(String pRcvName) {
-        this.pRcvName = pRcvName;
+    public void setproductRcvName(String productRcvName) {
+        this.productRcvName = productRcvName;
     }
 
-    public String getpRcvPhone() {
-        return pRcvPhone;
+    public String getproductRcvPhone() {
+        return productRcvPhone;
     }
 
-    public void setpRcvPhone(String pRcvPhone) {
-        this.pRcvPhone = pRcvPhone;
+    public void setproductRcvPhone(String productRcvPhone) {
+        this.productRcvPhone = productRcvPhone;
     }
 
-    public Byte getpTakeMethod() {
-        return pTakeMethod;
+    public Byte getproductTakeMethod() {
+        return productTakeMethod;
     }
 
-    public void setpTakeMethod(Byte pTakeMethod) {
-        this.pTakeMethod = pTakeMethod;
+    public void setproductTakeMethod(Byte productTakeMethod) {
+        this.productTakeMethod = productTakeMethod;
     }
 
-    public String getpAddr() {
-        return pAddr;
+    public String getproductAddr() {
+        return productAddr;
     }
 
-    public void setpAddr(String pAddr) {
-        this.pAddr = pAddr;
+    public void setproductAddr(String productAddr) {
+        this.productAddr = productAddr;
     }
 
-    public Byte getpPayMethod() {
-        return pPayMethod;
+    public Byte getproductPayMethod() {
+        return productPayMethod;
     }
 
-    public void setpPayMethod(Byte pPayMethod) {
-        this.pPayMethod = pPayMethod;
+    public void setproductPayMethod(Byte productPayMethod) {
+        this.productPayMethod = productPayMethod;
     }
 
-    public BigDecimal getpAllPrice() {
-        return pAllPrice;
+    public BigDecimal getproductAllPrice() {
+        return productAllPrice;
     }
 
-    public void setpAllPrice(BigDecimal pAllPrice) {
-        this.pAllPrice = pAllPrice;
+    public void setproductAllPrice(BigDecimal productAllPrice) {
+        this.productAllPrice = productAllPrice;
     }
 
     public Coupon getCoupon() {
@@ -152,44 +152,44 @@ public class ProductOrder {
         this.coupon = coupon;
     }
 
-    public BigDecimal getpDisc() {
-        return pDisc;
+    public BigDecimal getproductDisc() {
+        return productDisc;
     }
 
-    public void setpDisc(BigDecimal pDisc) {
-        this.pDisc = pDisc;
+    public void setproductDisc(BigDecimal productDisc) {
+        this.productDisc = productDisc;
     }
 
-    public BigDecimal getpRealPrice() {
-        return pRealPrice;
+    public BigDecimal getproductRealPrice() {
+        return productRealPrice;
     }
 
-    public void setpRealPrice(BigDecimal pRealPrice) {
-        this.pRealPrice = pRealPrice;
+    public void setproductRealPrice(BigDecimal productRealPrice) {
+        this.productRealPrice = productRealPrice;
     }
 
-    public Timestamp getpOrdTime() {
-        return pOrdTime;
+    public Timestamp getproductOrdTime() {
+        return productOrdTime;
     }
 
-    public void setpOrdTime(Timestamp pOrdTime) {
-        this.pOrdTime = pOrdTime;
+    public void setproductOrdTime(Timestamp productOrdTime) {
+        this.productOrdTime = productOrdTime;
     }
 
-    public Byte getpOrdStat() {
-        return pOrdStat;
+    public Byte getproductOrdStat() {
+        return productOrdStat;
     }
 
-    public void setpOrdStat(Byte pOrdStat) {
-        this.pOrdStat = pOrdStat;
+    public void setproductOrdStat(Byte productOrdStat) {
+        this.productOrdStat = productOrdStat;
     }
 
-    public Byte getpStat() {
-        return pStat;
+    public Byte getproductStat() {
+        return productStat;
     }
 
-    public void setpStat(Byte pStat) {
-        this.pStat = pStat;
+    public void setproductStat(Byte productStat) {
+        this.productStat = productStat;
     }
 
     public Set<ProductOrderDetail> getProductOrderDetails() {

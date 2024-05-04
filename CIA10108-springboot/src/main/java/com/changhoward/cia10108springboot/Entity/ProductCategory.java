@@ -10,10 +10,10 @@ import java.util.Set;
 public class ProductCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "pcatno")
-    private Integer pCatNo;
-    @Column(name = "pcatname")
-    private String pCatName;
+    @Column(name = "productcatno")
+    private Integer productCatNo;
+    @Column(name = "productcatname")
+    private String productCatName;
     @JsonBackReference
     @OneToMany(mappedBy = "productCategory", cascade = CascadeType.ALL)
     private Set<Product> products;
@@ -22,30 +22,30 @@ public class ProductCategory {
 
     }
 
-    public ProductCategory(Integer pCatNo) {
-        this.pCatNo = pCatNo;
+    public ProductCategory(Integer productCatNo) {
+        this.productCatNo = productCatNo;
     }
 
-    public ProductCategory(Integer pCatNo, String pCatName, Set<Product> products) {
-        this.pCatNo = pCatNo;
-        this.pCatName = pCatName;
+    public ProductCategory(Integer productCatNo, String productCatName, Set<Product> products) {
+        this.productCatNo = productCatNo;
+        this.productCatName = productCatName;
         this.products = products;
     }
 
-    public Integer getpCatNo() {
-        return pCatNo;
+    public Integer getproductCatNo() {
+        return productCatNo;
     }
 
-    public void setpCatNo(Integer pCatNo) {
-        this.pCatNo = pCatNo;
+    public void setproductCatNo(Integer productCatNo) {
+        this.productCatNo = productCatNo;
     }
 
-    public String getpCatName() {
-        return pCatName;
+    public String getproductCatName() {
+        return productCatName;
     }
 
-    public void setpCatName(String pCatName) {
-        this.pCatName = pCatName;
+    public void setproductCatName(String productCatName) {
+        this.productCatName = productCatName;
     }
 
     public Set<Product> getProducts() {

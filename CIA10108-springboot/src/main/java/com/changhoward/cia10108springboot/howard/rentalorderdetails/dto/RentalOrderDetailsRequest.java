@@ -8,44 +8,44 @@ import java.math.BigDecimal;
 public class RentalOrderDetailsRequest {
 
     @NotNull
-    Integer rOrdNo; // -> 租借訂單編號
+    Integer rentalOrdNo; // -> 租借訂單編號
     @NotNull
-    Integer rNo; // -> 租借品編號
+    Integer rentalNo; // -> 租借品編號
     @NotNull
-    BigDecimal rPrice; // -> 單價
+    BigDecimal rentalPrice; // -> 單價
     @NotNull
-    BigDecimal rDesPrice; // -> 押金
+    BigDecimal rentalDesPrice; // -> 押金
 
-    public Integer getrOrdNo() {
-        return rOrdNo;
+    public Integer getrentalOrdNo() {
+        return rentalOrdNo;
     }
 
-    public void setrOrdNo(Integer rOrdNo) {
-        this.rOrdNo = rOrdNo;
+    public void setrentalOrdNo(Integer rentalOrdNo) {
+        this.rentalOrdNo = rentalOrdNo;
     }
 
-    public Integer getrNo() {
-        return rNo;
+    public Integer getrentalNo() {
+        return rentalNo;
     }
 
-    public void setrNo(Integer rNo) {
-        this.rNo = rNo;
+    public void setrentalNo(Integer rentalNo) {
+        this.rentalNo = rentalNo;
     }
 
-    public BigDecimal getrPrice() {
-        return rPrice;
+    public BigDecimal getrentalPrice() {
+        return rentalPrice;
     }
 
-    public void setrPrice(BigDecimal rPrice) {
-        this.rPrice = rPrice;
+    public void setrentalPrice(BigDecimal rentalPrice) {
+        this.rentalPrice = rentalPrice;
     }
 
-    public BigDecimal getrDesPrice() {
-        return rDesPrice;
+    public BigDecimal getrentalDesPrice() {
+        return rentalDesPrice;
     }
 
-    public void setrDesPrice(BigDecimal rDesPrice) {
-        this.rDesPrice = rDesPrice;
+    public void setrentalDesPrice(BigDecimal rentalDesPrice) {
+        this.rentalDesPrice = rentalDesPrice;
     }
 
 }
