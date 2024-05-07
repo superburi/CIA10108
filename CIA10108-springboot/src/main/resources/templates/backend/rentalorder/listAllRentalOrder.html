@@ -85,7 +85,7 @@
                                         <td th:text="${order.getRtnRemark()}"></td>
                                         <td th:text="${order.getRtnCompensation()}"></td>
                                         <td>
-                                            <form method="post" th:action="@{updateRentalOrder}">
+                                            <form method="get" th:action="@{listAllToUpdateRentalOrder}">
                                                 <input type="hidden" name="rentalOrdNo" th:value="${order.getrentalOrdNo()}">
                                                 <button type="submit">
                                                     <i class="far fa-edit"></i>

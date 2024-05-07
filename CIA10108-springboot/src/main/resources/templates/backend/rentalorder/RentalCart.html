@@ -4,9 +4,10 @@
 <head th:insert="~{backend/component/plugin/backendplugin.html :: css}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>租借訂單明細清單</title>
+    <title>租借品訂單清單</title>
     <!-- Custom styles for this page -->
     <link th:href="@{/backend/vendor/datatables/dataTables.bootstrap4.min.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="/static/css/fontawesome/fontawesome-6.4.0.css">
 
 </head>
 <body id="page-top">
@@ -29,41 +30,26 @@
                 <!-- DataTales Example -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">全部租借訂單明細資料:</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">購物車商品:</h6>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                 <tr>
-                                    <th>租借品訂單編號</th>
                                     <th>租借品編號</th>
-                                    <th>單價</th>
-                                    <th>押金</th>
+                                    <th>類別編號</th>
+                                    <th>租借品名稱</th>
+                                    <th>租借品單價</th>
+                                    <th>尺寸</th>
+                                    <th>顏色</th>
+                                    <th>租借品資訊</th>
+                                    <th>租借品狀態</th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <th:block th:each="detail : ${detailList}">
-                                    <tr>
-
-                                        <td th:text="${detail.compositeDetail.getrentalOrdNo()}"></td>
-                                        <td th:text="${detail.compositeDetail.getrentalNo()}"></td>
-                                        <td th:text="${detail.getrentalPrice()}"></td>
-                                        <td th:text="${detail.getrentalDesPrice()}"></td>
-                                        <td>
-                                            <form method="get" th:action="@{listAllToUpdateRentalOrderDetails}">
-                                                <input type="hidden" name="rentalOrdNo" th:value="${detail.compositeDetail.getrentalOrdNo()}">
-                                                <input type="hidden" name="rentalNo" th:value="${detail.compositeDetail.getrentalNo()}">
-                                                <input type="hidden" name="rentalPrice" th:value="${detail.getrentalPrice()}">
-                                                <input type="hidden" name="rentalDesPrice" th:value="${detail.getrentalDesPrice()}">
-                                                <button type="submit" >
-                                                    <i class="far fa-edit"></i>
-                                                </button>
-                                            </form>
-                                        </td>
-
-                                    </tr>
-                                </th:block>
+                                <!--商品會在這-->
                                 </tbody>
                             </table>
                         </div>
@@ -93,6 +79,41 @@
 <script th:src="@{/backend/vendor/datatables/dataTables.bootstrap4.min.js}"></script>
 <!-- Page level custom scripts -->
 <script th:src="@{/backend/js/demo/datatables-demo.js}"></script>
+
+
+
+<script th:inline="javascript">
+
+    $(function() {
+
+        fetch('/backend/rentalorder/getFromCart?memNo=1')  // 發出 GET 請求
+            .then(response => response.json())  // 解析 JSON  這邊等於.then(function(response) {return response.json();})
+            .then(data => { // 這邊等於 .then(function(data) {...})
+                const table = $('#dataTable').DataTable();  // 初始化 DataTable
+                for (const key in data) { //
+                    const item = data[key]; // item = 包含每一個商品的詳細資訊的物件
+                    table.row.add([  // 添加行到 DataTable
+                        item['rentalNo'],
+                        item['rentalCatNo'],
+                        item['rentalName'],
+                        item['rentalPrice'],
+                        item['rentalSize'],
+                        item['rentalColor'],
+                        item['rentalInfo'],
+                        item['rentalStat'],
+                        '<button class="btn btn-sm btn-primary"><i class="fa-solid fa-plus"></i></button>' +
+                        ' <button class="btn btn-sm btn-danger"><i class="fa-solid fa-minus"></i></button>'
+                    ]).draw(false);  // 繪製表格，但不重設分頁
+                }
+            })
+            .catch(error => console.error('Error loading cart data:', error));
+
+    });
+
+</script>
+
+
+
 
 </body>
 </html>

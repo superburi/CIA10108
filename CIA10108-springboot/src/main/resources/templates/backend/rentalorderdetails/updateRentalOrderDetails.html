@@ -26,7 +26,7 @@
                 <div th:replace="backend/component/breadcrumb :: breadcrumb"></div>
                 <!-- 內容請填這裡~~~~~~~~~~~~~~~ -->
                 <li>輸入租借訂單明細資料 : </li>
-                <form method="post" th:action="@{/rentalorderdetails/update}">
+                <form method="post" th:action="@{/backend/rentalorderdetails/update}">
                     <label>租借訂單編號</label>
                     <input type="text" name="rentalOrdNo" th:value="${rentalOrdNo}">
                     <label>租借品編號</label>

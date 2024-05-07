@@ -7,6 +7,7 @@ import com.changhoward.cia10108springboot.howard.rentalorderdetails.dto.RentalOr
 import com.changhoward.cia10108springboot.howard.rentalorderdetails.service.RentalOrderDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -21,11 +22,13 @@ public class RentalOrderDetailsServiceImpl implements RentalOrderDetailsService 
     @Autowired
     private RentalOrderDetailsRepository repository;
 
+    @Transactional
     @Override
     public void insert(RentalOrderDetails rentalOrderDetails) {
         repository.save(rentalOrderDetails);
     }
 
+    @Transactional
     @Override
     public void update(RentalOrderDetails rod) {
 

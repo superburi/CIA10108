@@ -3,7 +3,6 @@ package com.changhoward.cia10108springboot.howard.rentalmytrack.controller;
 import com.changhoward.cia10108springboot.Entity.RentalMyTrack;
 import com.changhoward.cia10108springboot.howard.rentalmytrack.service.impl.RentalMyTrackServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -12,7 +11,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -26,6 +24,7 @@ import java.util.Map;
 public class BackendRentalMyTrackController {
 
     /*--------------------------所有方法共用-------------------------------*/
+
     @Autowired
     private RentalMyTrackServiceImpl rentalMyTrackService;
 
@@ -34,6 +33,7 @@ public class BackendRentalMyTrackController {
     protected List<RentalMyTrack> getAllData() {
         return rentalMyTrackService.getAll();
     }
+
     /*--------------------------所有方法共用-------------------------------*/
 
     /*--------------------------處理跳轉頁面請求的方法-------------------------------*/
@@ -76,12 +76,13 @@ public class BackendRentalMyTrackController {
     public String toAdd() {
         return "/backend/rentalmytrack/addRentalMyTrack";
     }
+
     /*--------------------------處理跳轉頁面請求的方法-------------------------------*/
 
     /*---------------------------處理CRUD請求的方法---------------------------------*/
     @PostMapping("/insert") // 新增
-    public String insert(@RequestParam @NotBlank Integer rentalNo,
-                         @RequestParam @NotBlank Integer memNo,
+    public String insert(@RequestParam @NotNull Integer rentalNo,
+                         @RequestParam @NotNull Integer memNo,
                          RedirectAttributes attributes) {
 
         // 資料是否已存在 ? 新增過了 : 繼續執行新增
@@ -108,22 +109,19 @@ public class BackendRentalMyTrackController {
     }
 
     @PostMapping("/update") // 修改
-    public String update(@RequestParam("rentalNo") @NotBlank(message = "請填入租借品編號!") Integer rentalNo,
-                         @RequestParam("memNo") @NotBlank(message = "請填入會員編號!") Integer memNo,
-                         @RequestParam("expRentalDate")
-                             @NotNull(message = "請填入期望租借日期!")
-                                @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)Date expRentalDate,
-                         RedirectAttributes attributes,
-                         BindingResult result) {
+    public String update(@RequestParam("rentalNo") Integer rentalNo,
+                         @RequestParam("memNo") Integer memNo,
+                         @RequestParam("expRentalDate") @NotNull Date expRentalDate, // 把@拿掉就可以
+                         RedirectAttributes attributes) {
 
-        // 驗證沒過加入錯誤訊息
-        if (result.hasErrors()) {
-            for (FieldError e : result.getFieldErrors()) {
-                attributes.addFlashAttribute("error_" + e.getField(), e.getDefaultMessage());
-                System.out.println(e.getDefaultMessage());
-            }
-            return "redirect:/backend/rentalmytrack/updateRentalMyTrack";
-        }
+        // 租借品、會員編號有錯誤時
+//        if (result.hasErrors()) {
+//            result.getAllErrors().forEach( error -> attributes.addFlashAttribute( "error_ "+ ( (FieldError) error ).getField(), error.getDefaultMessage() ) );
+//            attributes.addFlashAttribute("rentalNo", rentalNo);
+//            attributes.addFlashAttribute("memNo", memNo);
+//            return "redirect:/backend/rentalmytrack/updateRentalMyTrack";
+//        }
+
         // 先查查看該商品是否存在
         if (rentalMyTrackService.findById(rentalNo, memNo) == null) {
             attributes.addFlashAttribute("rentalNo", rentalNo);
@@ -182,10 +180,12 @@ public class BackendRentalMyTrackController {
     /*---------------------------處理CRUD請求的方法---------------------------------*/
 
     /*--------------------------將重複動作提煉成方法---------------------------------*/
-//    private RedirectAttributes addAttibutes(RedirectAttributes attributes, ) {
+//    private RedirectAttributes addAttibutes(Integer rentalNo, Integer memNo,
+//                                            Date expRentalDate, RedirectAttributes attributes) {
+//        if (rentalNo != null) {
+//            attributes.addFlashAttribute("rentalNo", rentalNo)
+//        }
 //
-//
-//        return
 //    }
     /*--------------------------將重複動作提煉成方法---------------------------------*/
 

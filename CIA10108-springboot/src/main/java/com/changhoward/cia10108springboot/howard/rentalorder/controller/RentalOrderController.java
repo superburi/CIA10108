@@ -1,10 +1,16 @@
 package com.changhoward.cia10108springboot.howard.rentalorder.controller;
 
+import com.changhoward.cia10108springboot.Entity.Rental;
 import com.changhoward.cia10108springboot.Entity.RentalOrder;
-import com.changhoward.cia10108springboot.Entity.RentalOrderDetails;
+import com.changhoward.cia10108springboot.howard.rentalorder.dao.RentalRepository;
 import com.changhoward.cia10108springboot.howard.rentalorder.dto.RentalOrderRequest;
+import com.changhoward.cia10108springboot.howard.rentalorder.dto.SetToCartRequest;
+import com.changhoward.cia10108springboot.howard.rentalorder.service.impl.RentalCartServiceImpl;
 import com.changhoward.cia10108springboot.howard.rentalorder.service.impl.RentalOrderServiceImpl;
+import com.changhoward.cia10108springboot.howard.rentalorderdetails.service.impl.RentalOrderDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -16,117 +22,149 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
+@RequestMapping("/backend/rentalorder")
 public class RentalOrderController {
+
+    /*--------------------------所有方法共用-------------------------------*/
 
     @Autowired
     private RentalOrderServiceImpl service;
 
-    @PostMapping("/rentalorders/createOrder")
-    public String createOrder(@RequestBody RentalOrderRequest order, ModelMap model) {
+    @Autowired
+    private RentalCartServiceImpl cartService;
 
-        // 新增
-//        Integer orderNo = service.save(order);
-        // 取得創建好的訂單資料
-//        RentalOrder rentalOrder = service.findById(orderNo);
-//        model.addAttribute("rentalOrder", rentalOrder);
-        return "";
+    @Autowired
+    private RentalRepository rentalRepository;
 
-    }
-
-    @PutMapping("/rentalorders/updateOrder")
-    public String updateOrder(@RequestBody Integer rentalOrdNo,
-                              @RequestBody(required = false) Byte rentalPayStat,
-                              @RequestBody(required = false) Byte rentalOrdStat,
-                              @RequestBody(required = false) Byte rtnStat,
-                              @RequestBody(required = false) String rtnRemark,
-                              @RequestBody(required = false) BigDecimal rtnCompensation, ModelMap model) {
-
-        // 付款時 => 更改付款狀態 -> 自動
-
-        // 選宅配，商品寄到目的地時 => 變更訂單狀態 -> 自動
-
-        // 歸還時 => 加上歸還註記、加上賠償金額、變更歸還狀態 -> 員工手動
-
-        // 取消訂單時 => 更改訂單狀態 -> 員工手動
-
-        return "";
-
-    }
-
-    @GetMapping("/rentalorders/findOrderById")
-    public String findOrderById() {
-
-
-
-        return "";
-
-    }
-
-    @GetMapping("/rentalorders/getAllOrders")
-    public String getAllOrders() {
-
-
-
-        return "";
-
-    }
-
-    @GetMapping("/rentalorders/getOnAny")
-    public String getOnAny(@RequestParam(required = false) Integer rentalOrdNo,
-                           @RequestParam Integer memNo,
-                           @RequestParam(required = false) Timestamp rentalOrdTime,
-                           @RequestParam(required = false) Timestamp rentalDate,
-                           @RequestParam(required = false) Byte rentalPayStat,
-                           @RequestParam(required = false) Byte rentalOrdStat,
-                           @RequestParam(required = false)BigDecimal rtnCompensation) {
-
-
-
-
-        return "";
-
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    @GetMapping("/backend/rentalorder/selectRentalOrder")
-    public String toSelect() {
-        return "/backend/rentalorder/selectRentalOrder";
-    }
-
+    @Autowired
+    private RentalOrderDetailsServiceImpl detailsService; // 加入購物車用的
 
     @ModelAttribute("orderList")
     protected List<RentalOrder> getAllData() {
         return service.getAll();
     }
 
+    @ModelAttribute("rentalList")
+    protected  List<Rental> getAllRental() {
+        return rentalRepository.findAll();
+    }
 
-    @GetMapping("/backend/rentalorder/listAllRentalOrder")
-    public String getAllProducts() {
+    /*--------------------------所有方法共用-------------------------------*/
+
+    /*--------------------------處理跳轉頁面請求的方法-------------------------------*/
+    // 去 加入購物車 頁面
+    @GetMapping("/addToCart")
+    public String toAddToCart() {
+        return "/backend/rentalorder/addToCart";
+    }
+
+    // 去 購物車 頁面
+    @GetMapping("/toRentalCart")
+    public String toCart() {
+        return "/backend/rentalorder/RentalCart";
+    }
+
+    // 去 首頁
+    @GetMapping("/selectRentalOrder")
+    public String toSelect() {
+        return "/backend/rentalorder/selectRentalOrder";
+    }
+
+    // 去 所有訂單頁面
+    @GetMapping("/listAllRentalOrder")
+    public String toAllOrders() {
         return "/backend/rentalorder/listAllRentalOrder";
     }
 
+    // 去 修改訂單 頁面
+    @GetMapping("/updateRentalOrder")
+    public String toUpdate() {
+        return "/backend/rentalorder/updateRentalOrder";
+    }
 
-    @GetMapping("/backend/rentalorder/getOnAny")
+    // 從 所有訂單 去 修改訂單 頁面
+    @GetMapping("/listAllToUpdateRentalOrder")
+    public String listAllToUpdate(@RequestParam Integer rentalOrdNo, ModelMap model) {
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("rentalOrdNo", rentalOrdNo);
+        List<RentalOrder> rentalOrderList = service.getByAttributes(map);
+        if (rentalOrderList == null || rentalOrderList.isEmpty()) {
+            return "/backend/rentalorder/listAllRentalOrder";
+        }
+        RentalOrder rentalOrder = rentalOrderList.get(0);
+        model.addAttribute("rentalOrdNo", rentalOrder.getrentalOrdNo());
+        model.addAttribute("memNo", rentalOrder.getMember().getMemNo());
+        model.addAttribute("rentalByrName", rentalOrder.getrentalByrName());
+        model.addAttribute("rentalByrPhone", rentalOrder.getrentalByrPhone());
+        model.addAttribute("rentalByrEmail", rentalOrder.getrentalByrEmail());
+        model.addAttribute("rentalRcvName", rentalOrder.getrentalRcvName());
+        model.addAttribute("rentalRcvPhone", rentalOrder.getrentalRcvPhone());
+        model.addAttribute("rentalTakeMethod", rentalOrder.getrentalTakeMethod());
+        model.addAttribute("rentalAddr", rentalOrder.getrentalAddr());
+        model.addAttribute("rentalPayMethod", rentalOrder.getrentalPayMethod());
+        model.addAttribute("rentalAllPrice", rentalOrder.getrentalAllPrice());
+        model.addAttribute("rentalAllDepPrice", rentalOrder.getrentalAllDepPrice());
+        model.addAttribute("rentalOrdTime", rentalOrder.getrentalOrdTime());
+        model.addAttribute("rentalDate", rentalOrder.getrentalDate());
+        model.addAttribute("rentalBackDate", rentalOrder.getrentalBackDate());
+        model.addAttribute("rentalRealBackDate", rentalOrder.getrentalRealBackDate());
+        model.addAttribute("rentalPayStat", rentalOrder.getrentalPayStat());
+        model.addAttribute("rentalOrdStat", rentalOrder.getrentalOrdStat());
+        model.addAttribute("rtnStat", rentalOrder.getRtnStat());
+        model.addAttribute("rtnRemark", rentalOrder.getRtnRemark());
+        model.addAttribute("rtnCompensation", rentalOrder.getRtnCompensation());
+        return "/backend/rentalorder/updateRentalOrder";
+
+    }
+
+    /*--------------------------處理跳轉頁面請求的方法-------------------------------*/
+
+    /*---------------------------處理CRUD請求的方法---------------------------------*/
+
+    @PostMapping("/createOrder")
+    public String createOrder(@RequestBody RentalOrderRequest order, ModelMap model) {
+
+
+        return "";
+
+    }
+
+    @PostMapping("/update")
+    public String updateOrder(@RequestParam Integer rentalOrdNo,
+                              @RequestParam(required = false) Byte rentalPayStat,
+                              @RequestParam(required = false) Byte rentalOrdStat,
+                              @RequestParam(required = false) Byte rtnStat,
+                              @RequestParam(required = false) String rtnRemark,
+                              @RequestParam(required = false) BigDecimal rtnCompensation, ModelMap model) {
+        // 付款時 => 更改付款狀態 -> 自動
+        // 選宅配，商品寄到目的地時 => 變更訂單狀態 -> 自動
+        // 歸還時 => 加上歸還註記、加上賠償金額、變更歸還狀態 -> 員工手動
+        // 取消訂單時 => 更改訂單狀態 -> 員工手動
+        Map<String, Object> map = new HashMap<>();
+        map.put("rentalOrdNo", rentalOrdNo);
+        if (rentalPayStat != null) {
+            map.put("rentalPayStat", rentalPayStat);
+        }
+        if (rentalOrdStat != null) {
+            map.put("rentalOrdStat", rentalOrdStat);
+        }
+        if (rtnStat != null) {
+            map.put("rtnStat", rtnStat);
+        }
+        if (rtnRemark != null) {
+            map.put("rtnRemark", rtnRemark);
+        }
+        if (rtnCompensation != null) {
+            map.put("rtnCompensation", rtnCompensation);
+        }
+        service.update(map);
+
+        return "redirect:/backend/rentalorder/listAllRentalOrder";
+
+    }
+
+    @GetMapping("/getOnAny")
     public String getOnAny(@RequestParam(required = false) Integer rentalOrdNo,
                            @RequestParam(required = false) Integer memNo,
                            @RequestParam(required = false) String rentalByrName,
@@ -223,8 +261,40 @@ public class RentalOrderController {
 
     }
 
+    /*---------------------------處理CRUD請求的方法---------------------------------*/
 
+    /*----------------------------有關購物車的方法----------------------------------*/
 
+    // 加入購物車
+    @PostMapping("/setToCart")
+    public ResponseEntity<?> setToCart(@RequestBody SetToCartRequest setToCartRequest) {
+        System.out.println("有進來setToCart方法喔!!!!");
+        Map<String, String> map = new HashMap<>();
+        map.put("rentalNo", String.valueOf(setToCartRequest.getRentalNo()));
+        map.put("rentalCatNo", String.valueOf(setToCartRequest.getRentalCatNo()));
+        map.put("rentalName", setToCartRequest.getRentalName());
+        map.put("rentalPrice", String.valueOf(setToCartRequest.getRentalPrice()));
+        map.put("rentalSize", String.valueOf(setToCartRequest.getRentalSize()));
+        map.put("rentalColor", setToCartRequest.getRentalColor());
+        map.put("rentalInfo", setToCartRequest.getRentalInfo());
+        map.put("rentalStat", String.valueOf(setToCartRequest.getRentalStat()));
+        System.out.println("正要放進map!!!!");
+        cartService.setToCart(setToCartRequest.getMemNo(), map);
 
+        return ResponseEntity.status(HttpStatus.CREATED).body(setToCartRequest.getRentalName());
+
+    }
+
+    // 取出購物車商品資訊
+    @GetMapping("/getFromCart")         // 因為 scan 要用 string 所以乾脆不轉型了
+    public ResponseEntity<?> getFromCart(@RequestParam String memNo, ModelMap model) {
+
+        Map<String, Map<String, String>> map = cartService.getFromCart(memNo);
+        System.out.println(map);
+        return ResponseEntity.status(HttpStatus.OK).body(map);
+
+    }
+
+    /*----------------------------有關購物車的方法----------------------------------*/
 
 }

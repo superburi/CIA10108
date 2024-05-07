@@ -40,9 +40,12 @@
                 </form>
 
 
-
-                <div th:if="${getOnAny}">
-                    <div th:insert="~{/backend/rentalorder/listOneRentalOrder :: listOneOrder}"></div>
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <div th:if="${getOnAny}">
+                            <div th:insert="~{/backend/rentalorder/listOneRentalOrder :: listOneOrder}"></div>
+                        </div>
+                    </table>
                 </div>
 
             </div>

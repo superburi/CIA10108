@@ -29,6 +29,8 @@
                 <form method="post" th:action="@{/backend/rentalmytrack/insert}">
                     <label>租借品編號</label>
                     <input type="text" name="rentalNo" th:value="${rentalNo}">
+                    <br>
+                    <label>會員編號</label>
                     <input type="text" name="memNo" th:value="${memNo}">
                     <button type="submit" >
                         新增

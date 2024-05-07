@@ -28,21 +28,24 @@
                 <li>輸入租借品追蹤資料 : </li>
                 <form method="post" th:action="@{/backend/rentalmytrack/update}">
                     <label>租借品編號</label>
-                    <input type="text" name="rentalNo" th:value="${rentalNo}">
-                    <span th:if="${error_rentalNo}" th:text="${error_rentalNo}" style="color: red"></span>
+                    <input type="text" name="rentalNo" th:value="${rentalNo}" readonly>
+                    <span th:if="${error_rentalNo}" th:value="${error_rentalNo}"></span>
                     <br>
                     <label>會員編號</label>
-                    <input type="text" name="memNo" th:value="${memNo}">
-                    <span th:if="${error_memNo}" th:text="${error_memNo}" style="color: red"></span>
+                    <input type="text" name="memNo" th:value="${memNo}" readonly>
+                    <span th:if="${error_memNo}" th:value="${error_memNo}"></span>
                     <br>
                     <input type="hidden" name="rentalTrackTime" th:value="${rentalTrackTime}">
                     <label>期望租借日期</label>
                     <input type="date" name="expRentalDate">
-                    <span th:if="${error_expRentalDate}" th:text="${error_expRentalDate}" style="color: red"></span>
+                    <input type="hidden" name="redirectUrl" value="/backend/rentalmytrack/updateRentalMyTrack">
+                    <span th:if="${datewrong}" th:text="${datewrong}" style="color: red"></span>
+                    <span th:if="${wrongDate}" th:text="${wrongDate}" style="color: red"></span>
+                    <span th:if="${error_expRentalDate}" th:value="${error_expRentalDate}" style="color: red"></span>
+                    <br>
                     <button type="submit" >
                         修改
                     </button>
-                    <span th:if="${wrongDate}" th:text="${wrongDate}" style="color: red"></span>
                     <span th:if="${noData}" th:text="${noData}" style="color: red"></span>
                 </form>
 

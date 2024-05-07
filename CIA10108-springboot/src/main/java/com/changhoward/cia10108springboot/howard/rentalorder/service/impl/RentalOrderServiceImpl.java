@@ -6,11 +6,13 @@ import com.changhoward.cia10108springboot.howard.rentalorder.dao.RentalOrderRepo
 import com.changhoward.cia10108springboot.howard.rentalorder.service.RentalOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 public class RentalOrderServiceImpl implements RentalOrderService {
@@ -18,14 +20,36 @@ public class RentalOrderServiceImpl implements RentalOrderService {
     @Autowired
     private RentalOrderRepository repository;
 
+    @Transactional
+    public void update(Map<String, Object> map) {
+
+        Integer rentalOrdNo = (Integer) map.get("rentalOrdNo");
+        Optional<RentalOrder> rentalOrderOptional = repository.findById(rentalOrdNo);
+
+        RentalOrder rentalOrder = rentalOrderOptional.orElse(null);
+        if (map.containsKey("rentalPayStat")) {
+            rentalOrder.setrentalPayStat((Byte) map.get("rentalPayStat"));
+        }
+        if (map.containsKey("rentalOrdStat")) {
+            rentalOrder.setrentalOrdStat((Byte) map.get("rentalOrdStat"));
+        }
+        if (map.containsKey("rtnStat")) {
+            rentalOrder.setRtnStat((Byte) map.get("rtnStat"));
+        }
+        if (map.containsKey("rtnRemark")) {
+            rentalOrder.setRtnRemark((String) map.get("rtnRemark"));
+        }
+        if (map.containsKey("rtnCompensation")) {
+            rentalOrder.setRtnCompensation((BigDecimal) map.get("rtnCompensation"));
+        }
+        repository.save(rentalOrder);
+
+    }
+
     @Override
     public List<RentalOrder> getAll() {
         return repository.findAll();
     }
-
-
-
-
 
     public List<RentalOrder> getByAttributes(Map<String, Object> map) {
 
@@ -124,6 +148,5 @@ public class RentalOrderServiceImpl implements RentalOrderService {
                 rentalOrdStat, rtnStat, rtnRemark, rtnCompensation);
 
     }
-
 
 }

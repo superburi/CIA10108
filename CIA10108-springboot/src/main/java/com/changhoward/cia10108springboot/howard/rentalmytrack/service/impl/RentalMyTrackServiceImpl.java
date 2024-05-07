@@ -6,6 +6,8 @@ import com.changhoward.cia10108springboot.howard.rentalmytrack.dto.RentalMyTrack
 import com.changhoward.cia10108springboot.howard.rentalmytrack.service.RentalMyTrackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
@@ -18,10 +20,12 @@ public class RentalMyTrackServiceImpl implements RentalMyTrackService {
     @Autowired
     RentalMyTrackRepository rentalMyTrackRepository;
 
+    @Transactional
     @Override
     public void insert(RentalMyTrack rentalMyTrack) {
         rentalMyTrackRepository.save(rentalMyTrack);
     }
+    @Transactional
     @Override
     public void update(RentalMyTrack rmt) {
 
