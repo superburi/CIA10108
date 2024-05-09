@@ -1,24 +1,37 @@
 package com.changhoward.cia10108springboot.howard.rentalorder.service.impl;
 
+import com.changhoward.cia10108springboot.Entity.Member;
+import com.changhoward.cia10108springboot.Entity.Rental;
 import com.changhoward.cia10108springboot.Entity.RentalOrder;
 import com.changhoward.cia10108springboot.Entity.RentalOrderDetails;
+import com.changhoward.cia10108springboot.howard.rentalorder.dao.MemberRepository;
 import com.changhoward.cia10108springboot.howard.rentalorder.dao.RentalOrderRepository;
+import com.changhoward.cia10108springboot.howard.rentalorder.dao.RentalRepository;
+import com.changhoward.cia10108springboot.howard.rentalorder.dto.RentalOrderRequest;
 import com.changhoward.cia10108springboot.howard.rentalorder.service.RentalOrderService;
+import com.changhoward.cia10108springboot.howard.rentalorderdetails.dao.RentalOrderDetailsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Component
 public class RentalOrderServiceImpl implements RentalOrderService {
 
     @Autowired
     private RentalOrderRepository repository;
+
+    @Autowired
+    private RentalOrderDetailsRepository detailsRepository;
+
+    @Autowired
+    MemberRepository memberRepository;
+
+    @Autowired
+    RentalRepository rentalRepository;
 
     @Transactional
     public void update(Map<String, Object> map) {
@@ -146,6 +159,54 @@ public class RentalOrderServiceImpl implements RentalOrderService {
                 rentalRcvName, rentalRcvPhone, rentalTakeMethod, rentalAddr, rentalPayMethod, rentalAllPrice,
                 rentalAllDepPrice, rentalOrdTime, rentalDate, rentalBackDate, rentalRealBackDate, rentalPayStat,
                 rentalOrdStat, rtnStat, rtnRemark, rtnCompensation);
+
+    }
+
+    @Transactional
+    public void createOrder(RentalOrderRequest req) {
+        // 新增訂單
+        RentalOrder order = new RentalOrder();
+        Optional<Member> members = memberRepository.findById(req.getMemNo());
+        Member member = members.orElse(null);
+        order.setMember(member);
+        order.setrentalByrName(req.getrentalByrName());
+        order.setrentalByrPhone(req.getrentalByrPhone());
+        order.setrentalByrEmail(req.getrentalByrEmail());
+        order.setrentalRcvName(req.getrentalRcvName());
+        order.setrentalRcvPhone(req.getrentalRcvPhone());
+        order.setrentalTakeMethod(req.getrentalTakeMethod());
+        order.setrentalAddr(req.getrentalAddr());
+        order.setrentalPayMethod(req.getrentalPayMethod());
+        order.setrentalAllPrice(req.getrentalAllPrice());
+        order.setrentalAllDepPrice(req.getrentalAllDepPrice());
+        order.setrentalOrdTime(req.getrentalOrdTime());
+        order.setrentalDate(req.getrentalDate());
+        order.setrentalBackDate(req.getrentalBackDate());
+        order.setrentalRealBackDate(req.getrentalRealBackDate());
+        order.setrentalPayStat(req.getrentalPayStat());
+        order.setrentalOrdStat(req.getrentalOrdStat());
+        order.setRtnStat(req.getRtnStat());
+        order.setRtnRemark(req.getRtnRemark());
+
+        repository.save(order);
+
+        List<String> buyItems = req.getBuyItems();
+        Set<RentalOrderDetails> details = new HashSet<>();
+        for (String buyItem : buyItems) {
+
+            RentalOrderDetails detail = new RentalOrderDetails();
+            Rental rental = rentalRepository.findById(Integer.valueOf(buyItem)).orElse(null);
+            detail.setRental(rental);
+            detail.setCompositeDetail(new RentalOrderDetails.CompositeDetail(order.getrentalOrdNo(), rental.getrentalNo()));
+            detail.setrentalPrice(rental.getrentalPrice());
+            detail.setrentalDesPrice(rental.getRentalCategory().getrentalDesPrice());
+
+            // 單一明細加入明細集合
+            details.add(detail);
+
+        }
+        // 明細放進訂單主體
+        order.setRentalOrderDetailses(details);
 
     }
 

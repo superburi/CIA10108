@@ -1,40 +1,31 @@
 package com.changhoward.cia10108springboot;
 
 
+import com.changhoward.cia10108springboot.Entity.RentalOrder;
+import com.changhoward.cia10108springboot.howard.rentalorder.dao.RentalOrderRepository;
 import com.changhoward.cia10108springboot.howard.rentalorder.service.impl.RentalCartServiceImpl;
+import com.changhoward.cia10108springboot.howard.rentalorder.service.impl.RentalOrderServiceImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.query.FluentQuery;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
 
 @SpringBootApplication
 public class Cia10108SpringbootApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(Cia10108SpringbootApplication.class, args);
-
-        RentalCartServiceImpl cartService = new RentalCartServiceImpl();
-//        String rentalNo = "5001";
-//        String rentalCatNo = "1";
-//        String rentalName = "格紋成套西裝";
-//        String rentalPrice = "15500";
-//        String rentalSize = "2";
-//        String rentalColor = "黑色";
-//        String rentalInfo = "款式 : 劍領 單排釦";
-//        String rentalStat = "1";
-//        Map<String, String> map = new HashMap<>();
-//        map.put("rentalNo", rentalNo);
-//        map.put("rentalCatNo", rentalCatNo);
-//        map.put("rentalName", rentalName);
-//        map.put("rentalPrice", rentalPrice);
-//        map.put("rentalSize", rentalSize);
-//        map.put("rentalColor", rentalColor);
-//        map.put("rentalInfo", rentalInfo);
-//        map.put("rentalStat", rentalStat);
-//        cartService.setToCart(map);
-//        cartService.getFromCart("member : 1");
-
     }
 
 }

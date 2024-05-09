@@ -32,7 +32,7 @@ public class Rental {
     private String rentalInfo;
     @Column(name="rentalstat",columnDefinition = "TINYINT")
     private Byte rentalStat;
-    @JsonBackReference
+//    @JsonBackReference
     @OneToMany(mappedBy = "rental", cascade = CascadeType.ALL)
     private Set<RentalOrderDetails> rentalOrderDetails;
     @JsonBackReference
@@ -168,5 +168,19 @@ public class Rental {
 
     public void setRentalMyTracks(Set<RentalMyTrack> rentalMyTracks) {
         this.rentalMyTracks = rentalMyTracks;
+    }
+
+    @Override
+    public String toString() {
+        return "Rental{" +
+                "rentalNo=" + rentalNo +
+                ", rentalCategory=" + rentalCategory +
+                ", rentalName='" + rentalName + '\'' +
+                ", rentalPrice=" + rentalPrice +
+                ", rentalSize=" + rentalSize +
+                ", rentalColor='" + rentalColor + '\'' +
+                ", rentalInfo='" + rentalInfo + '\'' +
+                ", rentalStat=" + rentalStat +
+                '}';
     }
 }

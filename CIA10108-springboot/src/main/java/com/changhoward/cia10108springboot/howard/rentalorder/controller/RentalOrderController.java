@@ -15,11 +15,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/backend/rentalorder")
@@ -58,10 +61,21 @@ public class RentalOrderController {
         return "/backend/rentalorder/addToCart";
     }
 
-    // 去 購物車 頁面
+    // 去 購物車商品 頁面
     @GetMapping("/toRentalCart")
     public String toCart() {
         return "/backend/rentalorder/RentalCart";
+    }
+
+    // 去 結帳 頁面
+    @GetMapping("/toCheckOut")
+    public String toCheckOut() {
+        return "/backend/rentalorder/checkOut";
+    }
+
+    @GetMapping("/createOrderSuccess")
+    public String toSuccess() {
+        return "/backend/rentalorder/createOrderSuccess";
     }
 
     // 去 首頁
@@ -123,10 +137,33 @@ public class RentalOrderController {
     /*---------------------------處理CRUD請求的方法---------------------------------*/
 
     @PostMapping("/createOrder")
-    public String createOrder(@RequestBody RentalOrderRequest order, ModelMap model) {
+    public ResponseEntity<?> createOrder(@RequestBody @Valid RentalOrderRequest order) {
+        System.out.println("有進來方法喔");
+        System.out.println(order.getBuyItems());
+        order.setrentalOrdTime(new Timestamp(System.currentTimeMillis()));
+        order.setrentalDate(new Timestamp(System.currentTimeMillis())); // 之後由到貨狀態決定
+        int rentSet1 = 86400;
+        if (Integer.valueOf(order.getRentSet()) == 1) {
+            order.setrentalBackDate(new Timestamp(System.currentTimeMillis() + rentSet1 * 7));
+        } else {
+            order.setrentalBackDate(new Timestamp(System.currentTimeMillis() + rentSet1 * 14));
+        }
+        order.setrentalRealBackDate(new Timestamp(System.currentTimeMillis()));
+        order.setrentalPayStat((byte) 0);
+        order.setrentalOrdStat((byte) 40);
+        order.setRtnStat((byte) 0);
+        order.setRtnRemark("尚未歸還");
 
-
-        return "";
+        // 執行創建訂單
+        service.createOrder(order);
+        // 先把字串陣列轉成整數陣列
+        List<Integer> rentalNoList = order.getBuyItems().stream()
+                .map(Integer::parseInt)
+                        .toList();
+        // 把購物車清空
+        cartService.deleteFromCart(order.getMemNo(), rentalNoList);
+        String redirectUrl = "/backend/rentalorder/createOrderSuccess";
+        return ResponseEntity.status(HttpStatus.CREATED).body(redirectUrl);
 
     }
 
@@ -268,7 +305,7 @@ public class RentalOrderController {
     // 加入購物車
     @PostMapping("/setToCart")
     public ResponseEntity<?> setToCart(@RequestBody SetToCartRequest setToCartRequest) {
-        System.out.println("有進來setToCart方法喔!!!!");
+//        System.out.println("有進來setToCart方法喔!!!!");
         Map<String, String> map = new HashMap<>();
         map.put("rentalNo", String.valueOf(setToCartRequest.getRentalNo()));
         map.put("rentalCatNo", String.valueOf(setToCartRequest.getRentalCatNo()));
@@ -278,7 +315,6 @@ public class RentalOrderController {
         map.put("rentalColor", setToCartRequest.getRentalColor());
         map.put("rentalInfo", setToCartRequest.getRentalInfo());
         map.put("rentalStat", String.valueOf(setToCartRequest.getRentalStat()));
-        System.out.println("正要放進map!!!!");
         cartService.setToCart(setToCartRequest.getMemNo(), map);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(setToCartRequest.getRentalName());
@@ -287,13 +323,25 @@ public class RentalOrderController {
 
     // 取出購物車商品資訊
     @GetMapping("/getFromCart")         // 因為 scan 要用 string 所以乾脆不轉型了
-    public ResponseEntity<?> getFromCart(@RequestParam String memNo, ModelMap model) {
+    public ResponseEntity<?> getFromCart(@RequestParam String memNo) {
 
         Map<String, Map<String, String>> map = cartService.getFromCart(memNo);
-        System.out.println(map);
         return ResponseEntity.status(HttpStatus.OK).body(map);
 
     }
+
+    // 從購物車刪除商品
+    @DeleteMapping("/deleteFromCart")
+    public ResponseEntity<?> deleteFromCart(@RequestParam Integer memNo,
+                                            @RequestParam Integer rentalNo) {
+
+        List<Integer> rentalNos = new ArrayList<>();
+        rentalNos.add(rentalNo);
+        cartService.deleteFromCart(memNo, rentalNos);
+        return ResponseEntity.status(HttpStatus.OK).body("ok");
+
+    }
+
 
     /*----------------------------有關購物車的方法----------------------------------*/
 

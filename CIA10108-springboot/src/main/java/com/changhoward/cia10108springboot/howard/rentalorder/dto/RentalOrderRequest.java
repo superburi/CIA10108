@@ -1,9 +1,14 @@
 package com.changhoward.cia10108springboot.howard.rentalorder.dto;
 
+import com.changhoward.cia10108springboot.CustomTimestampDeserializer;
+import com.changhoward.cia10108springboot.Entity.Rental;
 import com.changhoward.cia10108springboot.Entity.RentalOrderDetails;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
@@ -11,7 +16,7 @@ import java.util.List;
 public class RentalOrderRequest {
 
     private Integer rentalOrdNo; // -> 租借訂單編號
-    @NotBlank
+    @NotNull
     private Integer memNo; // -> 會員編號
     @NotBlank
     private String rentalByrName; // -> 訂購人姓名
@@ -20,26 +25,25 @@ public class RentalOrderRequest {
     @NotBlank
     @Email
     private String rentalByrEmail; // -> 訂購人Email
-
     private String rentalRcvName; // -> 收件人姓名
     private String rentalRcvPhone; // -> 收件人手機號碼
-    @NotBlank
+    @NotNull
     private byte rentalTakeMethod; // -> 取貨方式
     private String rentalAddr; // -> 宅配住址
-    @NotBlank
+    @NotNull
     private byte rentalPayMethod; // -> 付款方式
-    @NotBlank
+    @NotNull
     private BigDecimal rentalAllPrice; // -> 訂單總金額
-    @NotBlank
+    @NotNull
     private BigDecimal rentalAllDepPrice; // -> 押金總金額
     private Timestamp rentalOrdTime; // -> 下單時間
-    @NotBlank
-    private Timestamp rentalDate; // -> 預計租借日期
-    @NotBlank
-    private Timestamp rentalBackDate; // -> 預計歸還日期
 
+    @JsonDeserialize(using = CustomTimestampDeserializer.class)
+    private Timestamp rentalDate; // -> 預計租借日期
+    private Byte rentSet; // -> 租借方案
+    private Timestamp rentalBackDate; // -> 預計歸還日期
     private Timestamp rentalRealBackDate; // -> 實際歸還日期
-    @NotBlank
+
     private byte rentalPayStat; // -> 付款狀態
 
     private byte rentalOrdStat; // -> 訂單狀態
@@ -47,8 +51,15 @@ public class RentalOrderRequest {
     private byte rtnStat; // -> 歸還狀態
     private String rtnRemark; // -> 歸還註記
     private BigDecimal rtnCompensation; // -> 賠償金額
+
     @NotEmpty
-    private List<RentalOrderDetails> buyItems; // -> 購買明細
+    private List<String> buyItems; // -> 購買明細
+
+
+
+    /*--------------------------getter、setter-----------------------------*/
+
+
 
     public Integer getrentalOrdNo() {
         return rentalOrdNo;
@@ -218,12 +229,20 @@ public class RentalOrderRequest {
         this.rtnCompensation = rtnCompensation;
     }
 
-    public List<RentalOrderDetails> getBuyItems() {
+    public List<String> getBuyItems() {
         return buyItems;
     }
 
-    public void setBuyItems(List<RentalOrderDetails> buyItems) {
+    public void setBuyItems(List<String> buyItems) {
         this.buyItems = buyItems;
+    }
+
+    public Byte getRentSet() {
+        return rentSet;
+    }
+
+    public void setRentSet(Byte rentSet) {
+        this.rentSet = rentSet;
     }
 
 }

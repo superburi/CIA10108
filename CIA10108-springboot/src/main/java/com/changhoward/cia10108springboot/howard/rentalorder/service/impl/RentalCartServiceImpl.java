@@ -80,16 +80,20 @@ public class RentalCartServiceImpl implements RentalCartService {
 
     }
 
-    public void deleteFromCart(Integer memNo, Integer rentalNo) {
+    public void deleteFromCart(Integer memNo, List<Integer> rentalNos) {
 
         try(Jedis jedis = jedisPool.getResource()) {
 
             jedis.select(1);
 
+            String[] keys = rentalNos.stream()
+                    .map(rentalNo -> "member : " + memNo + " : cartItem : " + rentalNo)
+                    .toArray(String[]::new);
+
+            long result = jedis.del(keys); // 會返回刪除成功的筆數，還沒用到但先寫著備用
 
         }
 
     }
-
 
 }
