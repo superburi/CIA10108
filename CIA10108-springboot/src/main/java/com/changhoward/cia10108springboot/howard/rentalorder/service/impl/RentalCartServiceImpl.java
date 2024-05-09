@@ -66,7 +66,7 @@ public class RentalCartServiceImpl implements RentalCartService {
         // 回傳裝有所有購物車商品，跟個別商品的所有資訊的 Map
         return results;
 
-    }
+    } // getFromCart 方法結束
 
     public void setToCart(Integer memNo, Map<String, String> map) {
 
@@ -78,22 +78,27 @@ public class RentalCartServiceImpl implements RentalCartService {
 
         }
 
-    }
+    } // setToCart 方法結束
 
     public void deleteFromCart(Integer memNo, List<Integer> rentalNos) {
-
+            // 從連線池取得連線物件
         try(Jedis jedis = jedisPool.getResource()) {
-
+            // 使用 1 號倉庫
             jedis.select(1);
-
+           /*
+            * 把要刪除的商品編號轉化成 Redis 裡儲存的 key 的格式，說明如下 :
+            * 用 stream() 從 rentalNos 得到 stream 物件 -> 用 map() 遍歷 stream 物件中的各個元素，並執行以下操作 :
+            * 取得 stream 物件中每個元素，命名為 rentalNo，接著透過 Lambda 表達式將之轉換為 String 型別，指定格式的 key ->
+            * 將裝著已轉換完畢的 key 值的 stream 物件，透過 toArray()，轉換為字串陣列，轉換邏輯詳見 Medium
+           */
             String[] keys = rentalNos.stream()
                     .map(rentalNo -> "member : " + memNo + " : cartItem : " + rentalNo)
                     .toArray(String[]::new);
-
-            long result = jedis.del(keys); // 會返回刪除成功的筆數，還沒用到但先寫著備用
+            // 會返回刪除成功的筆數，還沒用到但先寫著備用
+            long result = jedis.del(keys);
 
         }
 
-    }
+    } // deleteFromCart 方法結束
 
 }

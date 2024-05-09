@@ -204,9 +204,13 @@ public class RentalOrderServiceImpl implements RentalOrderService {
             // 單一明細加入明細集合
             details.add(detail);
 
+            rental.setrentalStat((byte) 1);
+
         }
         // 明細放進訂單主體
         order.setRentalOrderDetailses(details);
+
+
 
     }
 

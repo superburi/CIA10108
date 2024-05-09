@@ -138,30 +138,41 @@ public class RentalOrderController {
 
     @PostMapping("/createOrder")
     public ResponseEntity<?> createOrder(@RequestBody @Valid RentalOrderRequest order) {
-        System.out.println("有進來方法喔");
-        System.out.println(order.getBuyItems());
+        /*-------------------------創建訂單時，設定初始參數-------------------------*/
+        // 下單時間 = 現在
         order.setrentalOrdTime(new Timestamp(System.currentTimeMillis()));
-        order.setrentalDate(new Timestamp(System.currentTimeMillis())); // 之後由到貨狀態決定
+        // 預計租借日期 = 現在 (此為初步實作，之後由到貨狀態決定)
+        order.setrentalDate(new Timestamp(System.currentTimeMillis()));
+       /*
+        * 預計歸還日期(rentalBackDate)，邏輯如下 :
+        * 方案(rentStat) = 1 ? 歸還日期 = 現在 + 7天 : 歸還日期 = 現在 + 14天
+       */
         int rentSet1 = 86400;
         if (Integer.valueOf(order.getRentSet()) == 1) {
             order.setrentalBackDate(new Timestamp(System.currentTimeMillis() + rentSet1 * 7));
         } else {
             order.setrentalBackDate(new Timestamp(System.currentTimeMillis() + rentSet1 * 14));
         }
+        // 實際歸還日期(因為資料庫設定NotNull，所以先設定為現在)
         order.setrentalRealBackDate(new Timestamp(System.currentTimeMillis()));
+        // 付款狀態 = 0(未付款)(此為初步實作，之後由創建訂單時付款與否決定狀態)
         order.setrentalPayStat((byte) 0);
+        // 訂單狀態 = 40(訂單成立)
         order.setrentalOrdStat((byte) 40);
+        // 歸還狀態 = 0(未歸還)
         order.setRtnStat((byte) 0);
+        // 歸還註記(因為資料庫設定NotNull，所以先設定為"尚未歸還")
         order.setRtnRemark("尚未歸還");
-
-        // 執行創建訂單
+        /*-------------------------執行創建訂單流程-------------------------*/
+        // 創建訂單
         service.createOrder(order);
-        // 先把字串陣列轉成整數陣列
+        // 先把字串陣列轉成整數陣列(因為service層方法需要List<Integer>)
         List<Integer> rentalNoList = order.getBuyItems().stream()
                 .map(Integer::parseInt)
                         .toList();
         // 把購物車清空
         cartService.deleteFromCart(order.getMemNo(), rentalNoList);
+        // 成功後傳送重導url(顯示訂購成功畫面)
         String redirectUrl = "/backend/rentalorder/createOrderSuccess";
         return ResponseEntity.status(HttpStatus.CREATED).body(redirectUrl);
 
