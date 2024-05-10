@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/backend/rentalorder")
+@CrossOrigin(origins = "http://localhost:8080")
 public class RentalOrderController {
 
     /*--------------------------所有方法共用-------------------------------*/
@@ -55,6 +56,13 @@ public class RentalOrderController {
     /*--------------------------所有方法共用-------------------------------*/
 
     /*--------------------------處理跳轉頁面請求的方法-------------------------------*/
+
+    // 去 測試串接 畫面
+    @GetMapping("/toTestEcpay")
+    public String toTestEcpay() {
+        return "/backend/rentalorder/testEcpay";
+    }
+
     // 去 加入購物車 頁面
     @GetMapping("/addToCart")
     public String toAddToCart() {
@@ -99,7 +107,7 @@ public class RentalOrderController {
     // 從 所有訂單 去 修改訂單 頁面
     @GetMapping("/listAllToUpdateRentalOrder")
     public String listAllToUpdate(@RequestParam Integer rentalOrdNo, ModelMap model) {
-
+        // 把資料一起帶到修改頁面
         Map<String, Object> map = new HashMap<>();
         map.put("rentalOrdNo", rentalOrdNo);
         List<RentalOrder> rentalOrderList = service.getByAttributes(map);
@@ -207,6 +215,8 @@ public class RentalOrderController {
             map.put("rtnCompensation", rtnCompensation);
         }
         service.update(map);
+
+
 
         return "redirect:/backend/rentalorder/listAllRentalOrder";
 
@@ -316,7 +326,7 @@ public class RentalOrderController {
     // 加入購物車
     @PostMapping("/setToCart")
     public ResponseEntity<?> setToCart(@RequestBody SetToCartRequest setToCartRequest) {
-//        System.out.println("有進來setToCart方法喔!!!!");
+
         Map<String, String> map = new HashMap<>();
         map.put("rentalNo", String.valueOf(setToCartRequest.getRentalNo()));
         map.put("rentalCatNo", String.valueOf(setToCartRequest.getRentalCatNo()));
@@ -355,5 +365,20 @@ public class RentalOrderController {
 
 
     /*----------------------------有關購物車的方法----------------------------------*/
+
+
+    /*----------------------------練習串接綠界api的方法----------------------------------*/
+
+
+    @PostMapping("/ecpayCheckout")
+    @ResponseBody
+    public String ecpayCheckout() {
+
+        String aioCheckOutALLForm = service.ecpayCheckout();
+        return aioCheckOutALLForm;
+
+    }
+
+
 
 }

@@ -10,6 +10,8 @@ import com.changhoward.cia10108springboot.howard.rentalorder.dao.RentalRepositor
 import com.changhoward.cia10108springboot.howard.rentalorder.dto.RentalOrderRequest;
 import com.changhoward.cia10108springboot.howard.rentalorder.service.RentalOrderService;
 import com.changhoward.cia10108springboot.howard.rentalorderdetails.dao.RentalOrderDetailsRepository;
+import ecpay.payment.integration.AllInOne;
+import ecpay.payment.integration.domain.AioCheckOutALL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,9 +39,8 @@ public class RentalOrderServiceImpl implements RentalOrderService {
     public void update(Map<String, Object> map) {
 
         Integer rentalOrdNo = (Integer) map.get("rentalOrdNo");
-        Optional<RentalOrder> rentalOrderOptional = repository.findById(rentalOrdNo);
+        RentalOrder rentalOrder = repository.findById(rentalOrdNo).orElse(null);
 
-        RentalOrder rentalOrder = rentalOrderOptional.orElse(null);
         if (map.containsKey("rentalPayStat")) {
             rentalOrder.setrentalPayStat((Byte) map.get("rentalPayStat"));
         }
@@ -47,7 +48,20 @@ public class RentalOrderServiceImpl implements RentalOrderService {
             rentalOrder.setrentalOrdStat((Byte) map.get("rentalOrdStat"));
         }
         if (map.containsKey("rtnStat")) {
-            rentalOrder.setRtnStat((Byte) map.get("rtnStat"));
+
+            Byte rtnStat = (Byte) map.get("rtnStat");
+
+            if (rtnStat == 1) {
+
+                Set<RentalOrderDetails> details = rentalOrder.getRentalOrderDetailses();
+                for (RentalOrderDetails detail : details) {
+                    detail.getRental().setrentalStat((byte) 3);
+                }
+                rentalOrder.setRentalOrderDetailses(details);
+
+            }
+
+            rentalOrder.setRtnStat(rtnStat);
         }
         if (map.containsKey("rtnRemark")) {
             rentalOrder.setRtnRemark((String) map.get("rtnRemark"));
@@ -203,7 +217,7 @@ public class RentalOrderServiceImpl implements RentalOrderService {
 
             // 單一明細加入明細集合
             details.add(detail);
-
+            // 把個別商品改變狀態為1(已預約)
             rental.setrentalStat((byte) 1);
 
         }
@@ -211,6 +225,28 @@ public class RentalOrderServiceImpl implements RentalOrderService {
         order.setRentalOrderDetailses(details);
 
 
+    } // createOrder 方法結束
+
+    /*----------------------------練習串接綠界api的方法----------------------------------*/
+
+    public String ecpayCheckout() {
+
+        AllInOne all = new AllInOne("");
+
+        AioCheckOutALL obj = new AioCheckOutALL();
+        obj.setMerchantTradeNo("testCompany0004");
+        obj.setMerchantTradeDate("2024/05/10 08:05:23");
+        obj.setTotalAmount("50");
+        obj.setTradeDesc("test Description");
+        obj.setItemName("TestItem");
+        // 交易結果回傳網址，只接受 https 開頭的網站，可以使用 ngrok
+        obj.setReturnURL("<http://211.23.128.214:5000>");
+        obj.setNeedExtraPaidInfo("N");
+        // 商店轉跳網址 (Optional)
+        obj.setClientBackURL("<http://192.168.1.37:8080/>");
+        String form = all.aioCheckOut(obj, null);
+
+        return form;
 
     }
 
